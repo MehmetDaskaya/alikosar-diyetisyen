@@ -1,0 +1,307 @@
+/* Hizmetler Page Styles */
+
+.hero {
+  position: relative;
+  padding: 160px 0 80px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heroBackground {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-white) 50%, rgba(124, 182, 157, 0.1) 100%);
+  z-index: -1;
+}
+
+.container {
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 var(--space-xl);
+  }
+}
+
+.heroContent {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-lg);
+  background: rgba(124, 182, 157, 0.1);
+  color: var(--color-primary-dark);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-lg);
+}
+
+.heroTitle {
+  font-size: var(--text-5xl);
+  color: var(--color-secondary);
+  margin-bottom: var(--space-lg);
+}
+
+.highlight {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heroDescription {
+  font-size: var(--text-lg);
+  color: var(--color-gray-600);
+  line-height: 1.8;
+}
+
+/* Services Section */
+.servicesSection {
+  padding: var(--space-4xl) 0 var(--space-5xl);
+}
+
+.servicesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .servicesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .servicesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.serviceCard {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-gray-100);
+  transition: all var(--transition-base);
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.serviceCard:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.serviceCard.green { border-top: 4px solid var(--color-primary); }
+.serviceCard.blue { border-top: 4px solid #3B82F6; }
+.serviceCard.purple { border-top: 4px solid #8B5CF6; }
+.serviceCard.orange { border-top: 4px solid #F59E0B; }
+.serviceCard.pink { border-top: 4px solid #EC4899; }
+.serviceCard.teal { border-top: 4px solid #14B8A6; }
+
+.serviceHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.serviceIcon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.serviceTitle {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  color: var(--color-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.serviceSubtitle {
+  font-size: var(--text-sm);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.serviceDescription {
+  font-size: var(--text-base);
+  color: var(--color-gray-600);
+  line-height: 1.7;
+  margin-bottom: var(--space-lg);
+}
+
+.featureList {
+  list-style: none;
+  margin-bottom: var(--space-xl);
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--color-gray-700);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-gray-100);
+}
+
+.featureItem:last-child {
+  border-bottom: none;
+}
+
+.checkIcon {
+  color: var(--color-primary);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.serviceButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.serviceButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(124, 182, 157, 0.4);
+  color: var(--color-white);
+}
+
+/* Process Section */
+.processSection {
+  padding: var(--space-5xl) 0;
+  background: var(--color-off-white);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.sectionTitle {
+  font-size: var(--text-4xl);
+  color: var(--color-secondary);
+}
+
+.processGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .processGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .processGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.processCard {
+  background: var(--color-white);
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.processCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.processNumber {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: var(--space-md);
+}
+
+.processTitle {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  color: var(--color-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.processDescription {
+  font-size: var(--text-sm);
+  color: var(--color-gray-600);
+  line-height: 1.7;
+}
+
+/* CTA Section */
+.ctaSection {
+  padding: var(--space-5xl) 0;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+}
+
+.ctaContent {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  font-size: var(--text-4xl);
+  color: var(--color-white);
+  margin-bottom: var(--space-md);
+}
+
+.ctaDescription {
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: var(--space-xl);
+}
+
+.ctaButton {
+  display: inline-flex;
+  padding: var(--space-lg) var(--space-2xl);
+  background: var(--color-white);
+  color: var(--color-primary-dark);
+  font-size: var(--text-base);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  color: var(--color-primary-dark);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

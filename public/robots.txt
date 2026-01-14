@@ -1,0 +1,10 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://alikosar.com/sitemap.xml
+
+# Disallow
+Disallow: /api/
+Disallow: /_next/
