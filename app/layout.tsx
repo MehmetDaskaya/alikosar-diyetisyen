@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://alikosar.com"),
+  metadataBase: new URL("https://diyetisyenalikosar.com"),
   title: {
     default: "Diyetisyen Ali Koşar | Antalya Beslenme ve Diyet Danışmanlığı",
     template: "%s | Diyetisyen Ali Koşar"
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "tr_TR",
-    url: "https://alikosar.com",
+    url: "https://diyetisyenalikosar.com",
     siteName: "Diyetisyen Ali Koşar",
     title: "Diyetisyen Ali Koşar | Antalya Beslenme ve Diyet Danışmanlığı",
     description: "Antalya'da profesyonel beslenme ve diyet danışmanlığı. Kişiye özel diyet programları ile sağlıklı yaşam.",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     google: "your-google-verification-code",
   },
   alternates: {
-    canonical: "https://alikosar.com",
+    canonical: "https://diyetisyenalikosar.com",
   },
 };
 
@@ -70,14 +70,14 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Dietitian",
-  "@id": "https://alikosar.com",
+  "@id": "https://diyetisyenalikosar.com",
   name: "Diyetisyen Ali Koşar",
   alternateName: "Ali Koşar Beslenme ve Diyet Danışmanlık Merkezi",
   description: "Antalya'da profesyonel beslenme ve diyet danışmanlığı hizmeti sunan uzman diyetisyen.",
-  url: "https://alikosar.com",
+  url: "https://diyetisyenalikosar.com",
   telephone: "+90-XXX-XXX-XXXX",
   email: "info@alikosar.com",
-  image: "https://alikosar.com/ali-kosar.jpg",
+  image: "https://diyetisyenalikosar.com/ali-kosar.jpg",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Şirinyalı Mahallesi 1507 sokak, Şirinyalı, 2 Apartmanı no:46 Kat:1 Daire:3",

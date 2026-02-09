@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://alikosar.com/sitemap.xml
+Sitemap: https://diyetisyenalikosar.com/sitemap.xml
 
 # Disallow
 Disallow: /api/
