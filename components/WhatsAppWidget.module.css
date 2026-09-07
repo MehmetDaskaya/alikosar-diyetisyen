@@ -1,0 +1,149 @@
+.widgetContainer {
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  right: calc(24px + env(safe-area-inset-right, 0px));
+  z-index: var(--z-fixed);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  pointer-events: none;
+}
+
+.buttonWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  text-decoration: none;
+}
+
+/* Arka planda yavaşça yayılan yumuşak yeşil dalga efekti */
+.pulseRing {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background-color: #25D366;
+  opacity: 0.6;
+  z-index: -1;
+  animation: pulseWave 2.8s cubic-bezier(0.25, 0, 0, 1) infinite;
+  pointer-events: none;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #2fe574 0%, #25D366 100%);
+  color: #FFFFFF;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45), 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  position: relative;
+  border: none;
+  cursor: pointer;
+  outline-offset: 3px;
+}
+
+.buttonWrapper:hover .button {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.55), 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.buttonWrapper:active .button {
+  transform: scale(0.95);
+}
+
+.button:focus-visible {
+  outline: 3px solid #25D366;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+
+/* Yanındaki bilgilendirici tooltip kartı */
+.tooltip {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: #FFFFFF;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--color-gray-200);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-secondary);
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+.onlineDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #25D366;
+  box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.25);
+  display: inline-block;
+  animation: blink 2s infinite ease-in-out;
+}
+
+@media (min-width: 769px) {
+  .tooltip {
+    display: flex;
+  }
+
+  .buttonWrapper:hover .tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .widgetContainer {
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    right: calc(18px + env(safe-area-inset-right, 0px));
+  }
+
+  .button {
+    width: 54px;
+    height: 54px;
+  }
+
+  .icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@keyframes pulseWave {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  65% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
