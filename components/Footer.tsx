@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Icon, { type IconName } from "./Icon";
+import { site, whatsappUrl } from "../lib/site";
 import styles from "./Footer.module.css";
 
 const footerLinks = {
@@ -15,9 +17,8 @@ const footerLinks = {
     { href: "/iletisim", label: "İletişim" },
   ],
   sosyal: [
-    { href: "https://instagram.com/diyetisyenalikosar", label: "Instagram", icon: "📸" },
-    { href: "https://facebook.com/diyetisyenalikosar", label: "Facebook", icon: "👤" },
-    { href: "https://wa.me/90XXXXXXXXXX", label: "WhatsApp", icon: "💬" },
+    { href: site.social.instagram, label: "Instagram", icon: "instagram" as IconName },
+    { href: whatsappUrl, label: "WhatsApp", icon: "whatsapp" as IconName },
   ],
 };
 
@@ -33,7 +34,9 @@ export default function Footer() {
             {/* Brand Column */}
             <div className={styles.brandColumn}>
               <Link href="/" className={styles.logo}>
-                <span className={styles.logoIcon}>🌿</span>
+                <span className={styles.logoIcon} aria-hidden="true">
+                  <Icon name="leaf" />
+                </span>
                 <div className={styles.logoText}>
                   <span className={styles.logoName}>Ali Koşar</span>
                   <span className={styles.logoTitle}>Diyetisyen</span>
@@ -53,7 +56,7 @@ export default function Footer() {
                     className={styles.socialLink}
                     aria-label={link.label}
                   >
-                    {link.icon}
+                    <Icon name={link.icon} size={20} />
                   </a>
                 ))}
               </div>
@@ -92,24 +95,30 @@ export default function Footer() {
               <h4 className={styles.columnTitle}>İletişim</h4>
               <address className={styles.address}>
                 <div className={styles.contactItem}>
-                  <span className={styles.contactIcon}>📍</span>
+                  <span className={styles.contactIcon} aria-hidden="true">
+                    <Icon name="pin" size={18} />
+                  </span>
                   <div>
-                    <p>Şirinyalı Mahallesi 1507 sokak</p>
-                    <p>Şirinyalı, 2 Apartmanı no:46 Kat:1 Daire:3</p>
-                    <p>07230 Muratpaşa/Antalya</p>
+                    <p>{site.address.street}</p>
+                    <p>
+                      {site.address.postalCode} {site.address.district}/{site.address.city}
+                    </p>
                   </div>
                 </div>
                 <div className={styles.contactItem}>
-                  <span className={styles.contactIcon}>📞</span>
-                  <a href="tel:+90XXXXXXXXXX">+90 (XXX) XXX XX XX</a>
+                  <span className={styles.contactIcon} aria-hidden="true">
+                    <Icon name="phone" size={18} />
+                  </span>
+                  <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
                 </div>
                 <div className={styles.contactItem}>
-                  <span className={styles.contactIcon}>✉️</span>
-                  <a href="mailto:info@alikosar.com">info@alikosar.com</a>
-                </div>
-                <div className={styles.contactItem}>
-                  <span className={styles.contactIcon}>🕐</span>
-                  <p>Pzt - Cuma: 09:00 - 18:00</p>
+                  <span className={styles.contactIcon} aria-hidden="true">
+                    <Icon name="clock" size={18} />
+                  </span>
+                  <div>
+                    <p>Pzt - Cuma: 09:00 - 18:00</p>
+                    <p>Cumartesi: 10:00 - 14:00</p>
+                  </div>
                 </div>
               </address>
             </div>
@@ -131,6 +140,10 @@ export default function Footer() {
               <span className={styles.divider}>|</span>
               <Link href="/kullanim-kosullari" className={styles.bottomLink}>
                 Kullanım Koşulları
+              </Link>
+              <span className={styles.divider}>|</span>
+              <Link href="/kvkk-aydinlatma-metni" className={styles.bottomLink}>
+                KVKK Aydınlatma Metni
               </Link>
             </div>
           </div>

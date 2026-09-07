@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getAllPosts, getAllCategories } from "../../lib/blog-data";
+import Icon from "../../components/Icon";
+import Photo from "../../components/Photo";
+import { getAllPosts, getAllCategories, formatDate } from "../../lib/blog-data";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Blog",
   description: "Sağlıklı beslenme, diyet ipuçları, sporcu beslenmesi ve Antalya'da sağlıklı yaşam hakkında güncel bilgiler. Diyetisyen Ali Koşar'ın blog yazıları.",
   keywords: ["beslenme blogu", "diyet ipuçları", "sağlıklı tarifler", "Antalya beslenme", "sporcu beslenmesi"],
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    url: "/blog",
+    title: "Blog | Diyetisyen Ali Koşar",
+    description: "Beslenme, diyet ve sağlıklı yaşam üzerine bilimsel temelli, güncel yazılar.",
+  },
 };
 
 export default function BlogPage() {
@@ -46,13 +55,18 @@ export default function BlogPage() {
                     className={styles.postCard}
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <div className={styles.postImage}>
-                      <span className={styles.postEmoji}>{post.emoji}</span>
-                    </div>
+                    <Photo
+                      src={post.image}
+                      alt={post.title}
+                      className={styles.postImage}
+                      sizes="(min-width: 1024px) 340px, 90vw"
+                    />
                     <div className={styles.postContent}>
                       <div className={styles.postMeta}>
                         <span className={styles.postCategory}>{post.category}</span>
-                        <span className={styles.postDate}>{post.date}</span>
+                        <time className={styles.postDate} dateTime={post.publishedAt}>
+                          {formatDate(post.publishedAt)}
+                        </time>
                       </div>
                       <h2 className={styles.postTitle}>{post.title}</h2>
                       <p className={styles.postExcerpt}>{post.excerpt}</p>
@@ -88,27 +102,11 @@ export default function BlogPage() {
                 </ul>
               </div>
 
-              {/* Newsletter */}
-              <div className={styles.sidebarWidget}>
-                <h3 className={styles.widgetTitle}>Bülten</h3>
-                <p className={styles.widgetDescription}>
-                  Yeni yazılardan haberdar olmak için e-bültenimize kayıt olun.
-                </p>
-                <form className={styles.newsletterForm}>
-                  <input 
-                    type="email" 
-                    placeholder="E-posta adresiniz"
-                    className={styles.newsletterInput}
-                  />
-                  <button type="submit" className={styles.newsletterButton}>
-                    Kayıt Ol
-                  </button>
-                </form>
-              </div>
-
               {/* CTA Widget */}
               <div className={styles.ctaWidget}>
-                <span className={styles.ctaEmoji}>📞</span>
+                <span className={styles.ctaIcon} aria-hidden="true">
+                  <Icon name="phone" size={22} />
+                </span>
                 <h3>Danışmanlık İçin</h3>
                 <p>Kişiselleştirilmiş beslenme programı için randevu alın.</p>
                 <Link href="/iletisim" className={styles.ctaLink}>

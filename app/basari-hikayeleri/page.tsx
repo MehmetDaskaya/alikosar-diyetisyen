@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Stars } from "../../components/Icon";
+import { credentials } from "../../lib/site";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Başarı Hikayeleri",
   description: "Diyetisyen Ali Koşar ile hedeflerine ulaşan danışanların başarı hikayeleri. Gerçek sonuçlar, gerçek insanlar.",
   keywords: ["başarı hikayeleri", "diyet sonuçları", "kilo verme başarı", "danışan yorumları"],
+  alternates: { canonical: "/basari-hikayeleri" },
+  openGraph: {
+    type: "website",
+    url: "/basari-hikayeleri",
+    title: "Başarı Hikayeleri | Diyetisyen Ali Koşar",
+    description: "Diyetisyen Ali Koşar ile hedeflerine ulaşan danışanların gerçek başarı hikayeleri.",
+  },
 };
 
 const successStories = [
@@ -72,10 +81,10 @@ const successStories = [
 ];
 
 const stats = [
-  { number: "1000+", label: "Mutlu Danışan" },
-  { number: "15.000+", label: "Kilogram Verildi" },
-  { number: "%98", label: "Memnuniyet Oranı" },
-  { number: "5+", label: "Yıl Deneyim" }
+  { number: "Antalyaspor", label: "Altyapı ve voleybol şubesi diyetisyeni" },
+  { number: String(credentials.practiceSince), label: "Yılından beri Antalya'da" },
+  { number: "6", label: "Uzmanlık alanı" },
+  { number: "Online", label: "ve yüz yüze görüşme" }
 ];
 
 export default function BasariHikayeleriPage() {
@@ -135,7 +144,7 @@ export default function BasariHikayeleriPage() {
                   <span className={styles.resultValue}>{story.result}</span>
                   <span className={styles.resultDuration}>({story.duration})</span>
                 </div>
-                <div className={styles.stars}>⭐⭐⭐⭐⭐</div>
+                <Stars className={styles.stars} />
                 <p className={styles.storyQuote}>&quot;{story.quote}&quot;</p>
               </div>
             ))}

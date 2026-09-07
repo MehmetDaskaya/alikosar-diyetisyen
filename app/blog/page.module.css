@@ -111,14 +111,6 @@
 
 .postImage {
   aspect-ratio: 16/10;
-  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-primary-light) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.postEmoji {
-  font-size: 4rem;
 }
 
 .postContent {
@@ -254,44 +246,6 @@
   color: var(--color-gray-600);
 }
 
-/* Newsletter */
-.newsletterForm {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.newsletterInput {
-  padding: var(--space-md);
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
-  transition: all var(--transition-fast);
-}
-
-.newsletterInput:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(124, 182, 157, 0.1);
-}
-
-.newsletterButton {
-  padding: var(--space-md);
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-white);
-  border: none;
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition-base);
-}
-
-.newsletterButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(124, 182, 157, 0.3);
-}
-
 /* CTA Widget */
 .ctaWidget {
   background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
@@ -301,10 +255,16 @@
   color: var(--color-white);
 }
 
-.ctaEmoji {
-  font-size: 3rem;
-  display: block;
+.ctaIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
   margin-bottom: var(--space-md);
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--color-white);
 }
 
 .ctaWidget h3 {

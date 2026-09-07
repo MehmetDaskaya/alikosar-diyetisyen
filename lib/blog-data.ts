@@ -7,9 +7,13 @@ export interface BlogPost {
   category: string;
   tags: string[];
   author: string;
-  date: string;
+  /** ISO 8601 yayın tarihi (YYYY-MM-DD). Görüntülenen tarih bundan üretilir. */
+  publishedAt: string;
+  /** ISO 8601 son güncelleme tarihi. Yoksa publishedAt kullanılır. */
+  updatedAt?: string;
   readTime: string;
-  emoji: string;
+  /** Kapak görseli: /public/images/blog/<slug>.jpg */
+  image: string;
   featured?: boolean;
 }
 
@@ -26,9 +30,9 @@ export const blogPosts: BlogPost[] = [
     category: "Beslenme İpuçları",
     tags: ["Antalya", "Akdeniz diyeti", "yerel lezzetler", "sağlıklı beslenme"],
     author: "Dyt. Ali Koşar",
-    date: "10 Ocak 2026",
+    publishedAt: "2026-01-10",
     readTime: "5 dk okuma",
-    emoji: "🥗",
+    image: "/images/blog/antalya-saglikli-beslenme-rehberi.jpg",
     featured: true,
     content: `
 ## Akdeniz Diyeti Nedir?
@@ -88,9 +92,9 @@ Antalya'da sağlıklı beslenmek, coğrafi avantajlarımızı kullanmak demektir
     category: "Sporcu Beslenmesi",
     tags: ["supplement", "protein", "kreatin", "BCAA", "sporcu beslenmesi"],
     author: "Dyt. Ali Koşar",
-    date: "5 Ocak 2026",
+    publishedAt: "2026-01-05",
     readTime: "7 dk okuma",
-    emoji: "🏋️",
+    image: "/images/blog/sporcu-beslenmesinde-supplement-kullanimi.jpg",
     featured: true,
     content: `
 ## Supplement Nedir ve Neden Gerekli?
@@ -143,7 +147,7 @@ Kreatin, en çok araştırılan ve güvenliği kanıtlanmış supplementlerden b
 
 ## Dikkat Edilmesi Gerekenler
 
-⚠️ **Uyarılar**:
+**Uyarılar**
 - Kaliteli markalar tercih edin (3. parti test sertifikalı)
 - Dozajı aşmayın
 - Sağlık durumunuzu göz önünde bulundurun
@@ -165,9 +169,9 @@ Supplementler, doğru kullanıldığında performansınızı artırabilir. Ancak
     category: "Özel Beslenme",
     tags: ["çölyak", "glutensiz", "tarifler", "özel beslenme"],
     author: "Dyt. Ali Koşar",
-    date: "1 Ocak 2026",
+    publishedAt: "2026-01-01",
     readTime: "6 dk okuma",
-    emoji: "🍞",
+    image: "/images/blog/glutensiz-yasam-colyak-tarifleri.jpg",
     content: `
 ## Çölyak Hastalığı Nedir?
 
@@ -255,9 +259,9 @@ Glutensiz yaşam başlangıçta zor görünebilir, ancak doğru bilgi ve planlam
     category: "Klinik Beslenme",
     tags: ["diyabet", "şeker hastalığı", "glisemik indeks", "klinik beslenme"],
     author: "Dyt. Ali Koşar",
-    date: "28 Aralık 2025",
+    publishedAt: "2025-12-28",
     readTime: "8 dk okuma",
-    emoji: "🩺",
+    image: "/images/blog/diyabet-beslenmesi-temel-ilkeler.jpg",
     content: `
 ## Diyabet ve Beslenme
 
@@ -282,18 +286,18 @@ Glisemik indeks, besinlerin kan şekerini yükseltme hızını ölçen bir skala
 
 ### Düşük Gİ'li Besinleri Tercih Edin
 
-- ✅ Yeşil yapraklı sebzeler
-- ✅ Mercimek, nohut, fasulye
-- ✅ Yulaf
-- ✅ Elmak, armut, çilek
-- ✅ Tam tahıllı ekmek
+- Yeşil yapraklı sebzeler
+- Mercimek, nohut, fasulye
+- Yulaf
+- Elmak, armut, çilek
+- Tam tahıllı ekmek
 
 ### Yüksek Gİ'li Besinlerden Kaçının
 
-- ❌ Beyaz ekmek, pirinç
-- ❌ Şekerli içecekler
-- ❌ Patates kızartması
-- ❌ Şekerlemeler, pastalar
+- Beyaz ekmek, pirinç
+- Şekerli içecekler
+- Patates kızartması
+- Şekerlemeler, pastalar
 
 ## Öğün Planlama İpuçları
 
@@ -336,9 +340,9 @@ Diyabet yönetiminde beslenme, ilaç tedavisi kadar önemlidir. Doğru besin se�
     category: "Kilo Yönetimi",
     tags: ["kilo verme", "plato", "metabolizma", "diyet"],
     author: "Dyt. Ali Koşar",
-    date: "20 Aralık 2025",
+    publishedAt: "2025-12-20",
     readTime: "5 dk okuma",
-    emoji: "⚖️",
+    image: "/images/blog/kilo-verme-platosu-nasil-asilinir.jpg",
     content: `
 ## Kilo Verme Platosu Nedir?
 
@@ -404,7 +408,7 @@ Aralıklı oruç (intermittent fasting) deneyebilirsiniz:
 
 ## Ne Zaman Endişelenmeli?
 
-⚠️ Şu durumlarda uzmana danışın:
+Şu durumlarda uzmana danışın:
 - 4 haftadan uzun süreli plato
 - Enerji düşüklüğü
 - Saç dökülmesi
@@ -426,9 +430,9 @@ Plato dönemi, vücudunuzun sizi test ettiği bir süreçtir. Sabırlı olun, st
     category: "Beslenme İpuçları",
     tags: ["detoks", "mit", "gerçek", "sağlıklı beslenme"],
     author: "Dyt. Ali Koşar",
-    date: "15 Aralık 2025",
+    publishedAt: "2025-12-15",
     readTime: "4 dk okuma",
-    emoji: "🍋",
+    image: "/images/blog/yaz-icin-detoks-diyeti-mitleri.jpg",
     content: `
 ## Detoks Diyeti Nedir?
 
@@ -480,19 +484,19 @@ Detoks diyetleri, vücudu "toksinlerden arındırdığını" iddia eden beslenme
 
 ### Yapmanız Gerekenler
 
-✅ **Bol su için** - Günde 2-3 litre
-✅ **Lifli besinler tüketin** - Sebze, meyve, tam tahıl
-✅ **Şeker ve işlenmiş gıdaları azaltın**
-✅ **Alkol tüketimini sınırlayın**
-✅ **Düzenli egzersiz yapın**
-✅ **Yeterli uyuyun**
+- **Bol su için** - Günde 2-3 litre
+- **Lifli besinler tüketin** - Sebze, meyve, tam tahıl
+- **Şeker ve işlenmiş gıdaları azaltın**
+- **Alkol tüketimini sınırlayın**
+- **Düzenli egzersiz yapın**
+- **Yeterli uyuyun**
 
 ### Kaçınmanız Gerekenler
 
-❌ Aşırı kısıtlayıcı diyetler
-❌ "Mucize" ürünler
-❌ Uzun süreli açlık
-❌ Sadece sıvı tüketmek
+- Aşırı kısıtlayıcı diyetler
+- "Mucize" ürünler
+- Uzun süreli açlık
+- Sadece sıvı tüketmek
 
 ## Sonuç
 
@@ -510,11 +514,19 @@ Pahalı detoks paketleri yerine, sürdürülebilir sağlıklı beslenme alışka
 // ========================================
 
 export function getAllPosts(): BlogPost[] {
-  return blogPosts.sort((a, b) => {
-    const dateA = parseDate(a.date);
-    const dateB = parseDate(b.date);
-    return dateB.getTime() - dateA.getTime();
-  });
+  return [...blogPosts].sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+}
+
+/** ISO tarihi "10 Ocak 2026" biçiminde gösterir. */
+export function formatDate(isoDate: string): string {
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(isoDate));
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -548,20 +560,4 @@ export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPos
   return blogPosts
     .filter(post => post.slug !== currentSlug && post.category === currentPost.category)
     .slice(0, limit);
-}
-
-// Helper to parse Turkish date format
-function parseDate(dateStr: string): Date {
-  const months: Record<string, number> = {
-    "Ocak": 0, "Şubat": 1, "Mart": 2, "Nisan": 3,
-    "Mayıs": 4, "Haziran": 5, "Temmuz": 6, "Ağustos": 7,
-    "Eylül": 8, "Ekim": 9, "Kasım": 10, "Aralık": 11
-  };
-  
-  const parts = dateStr.split(" ");
-  const day = parseInt(parts[0]);
-  const month = months[parts[1]] || 0;
-  const year = parseInt(parts[2]);
-  
-  return new Date(year, month, day);
 }

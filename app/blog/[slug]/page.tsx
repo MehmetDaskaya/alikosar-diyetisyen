@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts, getRelatedPosts } from "../../../lib/blog-data";
+import Icon from "../../../components/Icon";
+import Photo from "../../../components/Photo";
+import { getPostBySlug, getAllPosts, getRelatedPosts, formatDate } from "../../../lib/blog-data";
+import { site, absoluteUrl } from "../../../lib/site";
 import styles from "./page.module.css";
 
 interface Props {
@@ -21,12 +24,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: post.excerpt,
     keywords: post.tags,
     authors: [{ name: post.author }],
+    alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt,
+      url: `/blog/${post.slug}`,
+      images: [{ url: post.image, width: 1200, height: 750, alt: post.title }],
       type: "article",
-      publishedTime: post.date,
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt ?? post.publishedAt,
       authors: [post.author],
+      tags: [...post.tags],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt,
+      images: [post.image],
     },
   };
 }
@@ -47,26 +61,69 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   const relatedPosts = getRelatedPosts(slug, 3);
+  const postUrl = absoluteUrl(`/blog/${post.slug}`);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${postUrl}#article`,
+        headline: post.title,
+        description: post.excerpt,
+        image: absoluteUrl(post.image),
+        datePublished: post.publishedAt,
+        dateModified: post.updatedAt ?? post.publishedAt,
+        inLanguage: "tr-TR",
+        keywords: [...post.tags],
+        articleSection: post.category,
+        author: { "@id": `${site.url}/#alikosar` },
+        publisher: { "@id": `${site.url}/#business` },
+        mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: site.url },
+          { "@type": "ListItem", position: 2, name: "Blog", item: absoluteUrl("/blog") },
+          { "@type": "ListItem", position: 3, name: post.title, item: postUrl },
+        ],
+      },
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroBackground}></div>
         <div className={styles.container}>
           <div className={styles.heroContent}>
             <Link href="/blog" className={styles.backLink}>
-              ← Blog'a Dön
+              <Icon name="arrowLeft" size={16} />
+              Blog&apos;a Dön
             </Link>
             <div className={styles.postMeta}>
               <span className={styles.category}>{post.category}</span>
-              <span className={styles.date}>{post.date}</span>
+              <time className={styles.date} dateTime={post.publishedAt}>
+                {formatDate(post.publishedAt)}
+              </time>
               <span className={styles.readTime}>{post.readTime}</span>
             </div>
             <h1 className={styles.title}>{post.title}</h1>
             <p className={styles.excerpt}>{post.excerpt}</p>
             <div className={styles.author}>
-              <div className={styles.authorAvatar}>{post.emoji}</div>
+              <Photo
+                src="/images/ali-kosar-avatar.jpg"
+                alt="Dyt. Ali Koşar"
+                className={styles.authorAvatar}
+                sizes="48px"
+                showHint={false}
+              />
               <div>
                 <span className={styles.authorName}>{post.author}</span>
                 <span className={styles.authorTitle}>Beslenme ve Diyet Uzmanı</span>
@@ -80,6 +137,13 @@ export default async function BlogPostPage({ params }: Props) {
       <article className={styles.article}>
         <div className={styles.container}>
           <div className={styles.contentWrapper}>
+            <Photo
+              src={post.image}
+              alt={post.title}
+              className={styles.cover}
+              sizes="(min-width: 768px) 700px, 90vw"
+              priority
+            />
             <div 
               className={styles.content}
               dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
@@ -99,29 +163,14 @@ export default async function BlogPostPage({ params }: Props) {
             <div className={styles.share}>
               <span className={styles.shareLabel}>Paylaş:</span>
               <div className={styles.shareButtons}>
-                <a 
-                  href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`https://alikosar.com/blog/${post.slug}`)}`}
+                <a
+                  href={`https://wa.me/?text=${encodeURIComponent(`${post.title} - ${postUrl}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.shareButton}
                 >
-                  𝕏 Twitter
-                </a>
-                <a 
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`https://alikosar.com/blog/${post.slug}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.shareButton}
-                >
-                  📘 Facebook
-                </a>
-                <a 
-                  href={`https://wa.me/?text=${encodeURIComponent(`${post.title} - https://alikosar.com/blog/${post.slug}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.shareButton}
-                >
-                  💬 WhatsApp
+                  <Icon name="whatsapp" size={16} />
+                  WhatsApp
                 </a>
               </div>
             </div>
@@ -141,13 +190,18 @@ export default async function BlogPostPage({ params }: Props) {
                   href={`/blog/${relatedPost.slug}`}
                   className={styles.relatedCard}
                 >
-                  <div className={styles.relatedImage}>
-                    <span className={styles.relatedEmoji}>{relatedPost.emoji}</span>
-                  </div>
+                  <Photo
+                    src={relatedPost.image}
+                    alt={relatedPost.title}
+                    className={styles.relatedImage}
+                    sizes="(min-width: 1024px) 300px, 90vw"
+                  />
                   <div className={styles.relatedContent}>
                     <span className={styles.relatedCategory}>{relatedPost.category}</span>
                     <h3 className={styles.relatedCardTitle}>{relatedPost.title}</h3>
-                    <span className={styles.relatedDate}>{relatedPost.date}</span>
+                    <time className={styles.relatedDate} dateTime={relatedPost.publishedAt}>
+                      {formatDate(relatedPost.publishedAt)}
+                    </time>
                   </div>
                 </Link>
               ))}
@@ -202,10 +256,6 @@ function formatContent(content: string): string {
     })
     // Code blocks
     .replace(/`(.*?)`/g, '<code>$1</code>')
-    // Checkmarks
-    .replace(/✅/g, '<span class="check">✅</span>')
-    .replace(/❌/g, '<span class="cross">❌</span>')
-    .replace(/⚠️/g, '<span class="warning">⚠️</span>')
     // Paragraphs
     .replace(/\n\n/g, '</p><p>')
     // Wrap in paragraph

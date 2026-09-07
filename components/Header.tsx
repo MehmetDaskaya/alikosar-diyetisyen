@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Icon from "./Icon";
 import styles from "./Header.module.css";
 
 const navLinks = [
@@ -35,7 +36,9 @@ export default function Header() {
       <div className={styles.container}>
         {/* Logo */}
         <Link href="/" className={styles.logo}>
-          <span className={styles.logoIcon}>🌿</span>
+          <span className={styles.logoIcon} aria-hidden="true">
+            <Icon name="leaf" />
+          </span>
           <div className={styles.logoText}>
             <span className={styles.logoName}>Ali Koşar</span>
             <span className={styles.logoTitle}>Diyetisyen</span>

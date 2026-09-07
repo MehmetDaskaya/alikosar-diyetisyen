@@ -91,7 +91,9 @@
 }
 
 .badgeIcon {
+  display: inline-flex;
   font-size: 1rem;
+  color: var(--color-primary-dark);
 }
 
 .heroTitle {
@@ -191,47 +193,82 @@
 
 /* Hero Stats */
 .heroStats {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xl);
+  gap: var(--space-md);
   padding: var(--space-lg);
   background: rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
 }
 
+/* Ayraçlar yalnızca yan yana sığdıkları geniş ekranlarda gösterilir. */
+.heroStats .statDivider {
+  display: none;
+}
+
+/* "Antalyaspor" tek kelime olduğu için dar ekranda alt alta diziliyor. */
+@media (min-width: 480px) {
+  .heroStats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (min-width: 1024px) {
   .heroStats {
+    display: flex;
     justify-content: flex-start;
+    gap: var(--space-xl);
     background: transparent;
     box-shadow: none;
     padding: 0;
+  }
+
+  .heroStats .statDivider {
+    display: block;
   }
 }
 
 .statItem {
   text-align: center;
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .statItem {
+    max-width: 150px;
+  }
 }
 
 .statNumber {
   display: block;
   font-family: var(--font-heading);
-  font-size: var(--text-2xl);
+  font-size: var(--text-lg);
   font-weight: 700;
+  line-height: 1.2;
   color: var(--color-secondary);
+}
+
+@media (min-width: 1024px) {
+  .statNumber {
+    font-size: var(--text-xl);
+  }
 }
 
 .statLabel {
   display: block;
   font-size: var(--text-xs);
+  line-height: 1.4;
   color: var(--color-gray-500);
   margin-top: var(--space-xs);
 }
 
 .statDivider {
   width: 1px;
-  height: 40px;
+  align-self: stretch;
+  min-height: 40px;
   background: var(--color-gray-200);
 }
 
@@ -252,28 +289,11 @@
   padding: var(--space-xl);
 }
 
-.heroImagePlaceholder {
+.heroPhoto {
   width: 100%;
   aspect-ratio: 4/5;
-  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-primary-light) 100%);
   border-radius: var(--radius-2xl);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-lg);
   box-shadow: var(--shadow-2xl);
-}
-
-.placeholderEmoji {
-  font-size: 6rem;
-}
-
-.placeholderText {
-  font-family: var(--font-heading);
-  font-size: var(--text-xl);
-  color: var(--color-secondary);
-  text-align: center;
 }
 
 .floatingCard {
@@ -296,7 +316,9 @@
 }
 
 .floatingIcon {
-  font-size: 1.5rem;
+  display: inline-flex;
+  font-size: 1.35rem;
+  color: var(--color-primary-dark);
 }
 
 /* Scroll Indicator */
@@ -429,8 +451,22 @@
 }
 
 .serviceIcon {
-  font-size: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
   margin-bottom: var(--space-lg);
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+  color: var(--color-primary-dark);
+  font-size: 1.75rem;
+  transition: all var(--transition-base);
+}
+
+.serviceCard:hover .serviceIcon {
+  background: var(--color-primary);
+  color: var(--color-white);
 }
 
 .serviceTitle {
@@ -542,31 +578,43 @@
   }
 }
 
-.whyImagePlaceholder {
-  aspect-ratio: 1;
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+.whyImageWrapper {
+  position: relative;
   border-radius: var(--radius-2xl);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-3xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.whyPhoto {
+  aspect-ratio: 1;
+}
+
+.whyImageWrapper .whyQuote {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  background: linear-gradient(to top, rgba(30, 58, 95, 0.92) 45%, rgba(30, 58, 95, 0));
+  margin: 0;
 }
 
 .whyQuote {
-  text-align: center;
   color: var(--color-white);
 }
 
-.whyQuote p {
+.whyQuote svg {
+  color: var(--color-primary-light);
+  margin-bottom: var(--space-sm);
+}
+
+.whyQuote blockquote {
   font-family: var(--font-heading);
-  font-size: var(--text-2xl);
-  font-style: italic;
+  font-size: var(--text-xl);
   line-height: 1.5;
-  margin-bottom: var(--space-lg);
+  margin: 0 0 var(--space-md);
   color: var(--color-white);
 }
 
-.whyQuote span {
+.whyQuote figcaption {
   font-size: var(--text-sm);
   opacity: 0.8;
 }
@@ -603,8 +651,11 @@
 }
 
 .testimonialStars {
+  display: flex;
+  gap: 3px;
   margin-bottom: var(--space-md);
-  letter-spacing: 2px;
+  font-size: 1rem;
+  color: var(--color-accent);
 }
 
 .testimonialText {
@@ -767,16 +818,8 @@
   box-shadow: var(--shadow-xl);
 }
 
-.blogImagePlaceholder {
+.blogImage {
   aspect-ratio: 16/10;
-  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-primary-light) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.blogEmoji {
-  font-size: 4rem;
 }
 
 .blogContent {

@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Icon, { type IconName } from "../../components/Icon";
+import { site, absoluteUrl } from "../../lib/site";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Hizmetler",
   description: "Diyetisyen Ali Koşar'ın sunduğu beslenme ve diyet hizmetleri: Kilo yönetimi, sporcu beslenmesi, klinik beslenme, özel beslenme programları. Antalya'da profesyonel diyet danışmanlığı.",
   keywords: ["diyet hizmetleri", "kilo verme", "sporcu beslenmesi", "diyabet diyeti", "Antalya diyetisyen"],
+  alternates: { canonical: "/hizmetler" },
+  openGraph: {
+    type: "website",
+    url: "/hizmetler",
+    title: "Hizmetler | Diyetisyen Ali Koşar",
+    description: "Kilo yönetimi, sporcu beslenmesi, klinik beslenme ve özel beslenme programları. Antalya'da kişiye özel diyet danışmanlığı.",
+  },
 };
 
 const services = [
   {
     id: "kilo-yonetimi",
-    icon: "⚖️",
+    icon: "scale" as IconName,
     title: "Kilo Yönetimi",
     subtitle: "Sağlıklı ve Kalıcı Sonuçlar",
     description: "Kişiye özel metabolizma analizi ile hazırlanan beslenme programları. Açlık hissi yaşamadan, sürdürülebilir kilo kontrolü.",
@@ -26,10 +35,10 @@ const services = [
   },
   {
     id: "sporcu-beslenmesi",
-    icon: "💪",
+    icon: "dumbbell" as IconName,
     title: "Sporcu Beslenmesi",
     subtitle: "Performansınızı Maksimize Edin",
-    description: "Profesyonel ve amatör sporcular için özel beslenme programları. Supplement danışmanlığı ve yarışma/maç öncesi beslenme stratejileri.",
+    description: "Antalyaspor altyapı ve voleybol şubesinin diyetisyeni olarak edindiğim deneyimle, profesyonel ve amatör sporculara özel beslenme programları. Supplement danışmanlığı ve yarışma/maç öncesi beslenme stratejileri.",
     features: [
       "Performans odaklı beslenme planı",
       "Supplement ve takviye danışmanlığı",
@@ -41,7 +50,7 @@ const services = [
   },
   {
     id: "klinik-beslenme",
-    icon: "🩺",
+    icon: "stethoscope" as IconName,
     title: "Klinik Beslenme",
     subtitle: "Hastalıklarda Tıbbi Beslenme Tedavisi",
     description: "Diyabet, hipertansiyon, tiroid, gut ve diğer metabolik hastalıklarda bilimsel temelli beslenme programları.",
@@ -56,7 +65,7 @@ const services = [
   },
   {
     id: "ozel-beslenme",
-    icon: "🌾",
+    icon: "wheat" as IconName,
     title: "Özel Beslenme Durumları",
     subtitle: "Bireysel İhtiyaçlara Özel Çözümler",
     description: "Çölyak, laktoz intoleransı, yeme bozuklukları ve diğer özel durumlar için uyarlanmış beslenme planları.",
@@ -71,7 +80,7 @@ const services = [
   },
   {
     id: "hamilelik-beslenme",
-    icon: "🤰",
+    icon: "heart" as IconName,
     title: "Hamilelik ve Emzirme",
     subtitle: "Anne ve Bebek Sağlığı",
     description: "Gebelik öncesi, hamilelik dönemi ve emzirme sürecinde anne ve bebek sağlığını destekleyen beslenme programları.",
@@ -86,7 +95,7 @@ const services = [
   },
   {
     id: "cocuk-beslenme",
-    icon: "👶",
+    icon: "baby" as IconName,
     title: "Çocuk ve Ergen Beslenmesi",
     subtitle: "Sağlıklı Büyüme İçin Doğru Beslenme",
     description: "Büyüme çağındaki çocuklar ve ergenler için yaş grubuna uygun, sağlıklı beslenme alışkanlıkları kazandıran programlar.",
@@ -101,9 +110,44 @@ const services = [
   }
 ];
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Ana Sayfa", item: site.url },
+        { "@type": "ListItem", position: 2, name: "Hizmetler", item: absoluteUrl("/hizmetler") },
+      ],
+    },
+    ...services.map((service) => ({
+      "@type": "Service",
+      "@id": absoluteUrl(`/hizmetler#${service.id}`),
+      name: service.title,
+      alternateName: service.subtitle,
+      description: service.description,
+      serviceType: service.title,
+      provider: { "@id": `${site.url}/#business` },
+      areaServed: { "@type": "City", name: site.address.city },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: `${service.title} kapsamı`,
+        itemListElement: service.features.map((feature) => ({
+          "@type": "Offer",
+          itemOffered: { "@type": "Service", name: feature },
+        })),
+      },
+    })),
+  ],
+};
+
 export default function HizmetlerPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroBackground}></div>
@@ -133,7 +177,9 @@ export default function HizmetlerPage() {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className={styles.serviceHeader}>
-                  <span className={styles.serviceIcon}>{service.icon}</span>
+                  <span className={styles.serviceIcon} aria-hidden="true">
+                    <Icon name={service.icon} />
+                  </span>
                   <div>
                     <h2 className={styles.serviceTitle}>{service.title}</h2>
                     <span className={styles.serviceSubtitle}>{service.subtitle}</span>
@@ -143,7 +189,9 @@ export default function HizmetlerPage() {
                 <ul className={styles.featureList}>
                   {service.features.map((feature, idx) => (
                     <li key={idx} className={styles.featureItem}>
-                      <span className={styles.checkIcon}>✓</span>
+                      <span className={styles.checkIcon} aria-hidden="true">
+                        <Icon name="check" size={12} strokeWidth={2.6} />
+                      </span>
                       {feature}
                     </li>
                   ))}

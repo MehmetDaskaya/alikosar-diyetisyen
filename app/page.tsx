@@ -1,7 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import Icon, { Stars, type IconName } from "../components/Icon";
+import Photo from "../components/Photo";
+import { getAllPosts, formatDate } from "../lib/blog-data";
+import { credentials } from "../lib/site";
 import styles from "./page.module.css";
 
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+  openGraph: { url: "/" },
+};
+
 export default function Home() {
+  const blogPosts = getAllPosts().slice(0, 3);
+
   return (
     <>
       {/* Hero Section */}
@@ -13,8 +25,11 @@ export default function Home() {
         <div className={styles.heroContainer}>
           <div className={styles.heroContent}>
             <span className={styles.heroBadge}>
-              <span className={styles.badgeIcon}>🌿</span>
-              Antalya&apos;nın Güvenilir Diyetisyeni
+              <span className={styles.badgeIcon} aria-hidden="true">
+                <Icon name="leaf" />
+              </span>
+              {credentials.affiliation.organization}{" "}
+              {credentials.affiliation.role}
             </span>
             <h1 className={styles.heroTitle}>
               Lezzetten Ödün Vermeden
@@ -38,33 +53,40 @@ export default function Home() {
             </div>
             <div className={styles.heroStats}>
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>1000+</span>
-                <span className={styles.statLabel}>Mutlu Danışan</span>
+                <span className={styles.statNumber}>{credentials.practiceSince}</span>
+                <span className={styles.statLabel}>Yılından beri Antalya&apos;da</span>
               </div>
               <div className={styles.statDivider}></div>
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>5+</span>
-                <span className={styles.statLabel}>Yıl Deneyim</span>
+                <span className={styles.statNumber}>Antalyaspor</span>
+                <span className={styles.statLabel}>Altyapı ve voleybol diyetisyeni</span>
               </div>
               <div className={styles.statDivider}></div>
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>%98</span>
-                <span className={styles.statLabel}>Memnuniyet</span>
+                <span className={styles.statNumber}>Online</span>
+                <span className={styles.statLabel}>ve yüz yüze görüşme</span>
               </div>
             </div>
           </div>
           <div className={styles.heroVisual}>
             <div className={styles.heroImageWrapper}>
-              <div className={styles.heroImagePlaceholder}>
-                <span className={styles.placeholderEmoji}>👨‍⚕️</span>
-                <span className={styles.placeholderText}>Diyetisyen Ali Koşar</span>
-              </div>
+              <Photo
+                src="/images/ali-kosar-portre.jpg"
+                alt="Diyetisyen Ali Koşar portre fotoğrafı"
+                className={styles.heroPhoto}
+                sizes="(min-width: 1024px) 480px, 90vw"
+                priority
+              />
               <div className={styles.floatingCard} style={{ top: "10%", right: "-20px" }}>
-                <span className={styles.floatingIcon}>🥗</span>
+                <span className={styles.floatingIcon} aria-hidden="true">
+                  <Icon name="bowl" />
+                </span>
                 <span>Kişiye Özel</span>
               </div>
               <div className={styles.floatingCard} style={{ bottom: "20%", left: "-30px" }}>
-                <span className={styles.floatingIcon}>💪</span>
+                <span className={styles.floatingIcon} aria-hidden="true">
+                  <Icon name="dumbbell" />
+                </span>
                 <span>Sporcu Beslenmesi</span>
               </div>
             </div>
@@ -92,7 +114,9 @@ export default function Home() {
           <div className={styles.servicesGrid}>
             {services.map((service, index) => (
               <Link href={service.href} key={index} className={styles.serviceCard}>
-                <div className={styles.serviceIcon}>{service.icon}</div>
+                <div className={styles.serviceIcon} aria-hidden="true">
+                  <Icon name={service.icon} />
+                </div>
                 <h3 className={styles.serviceTitle}>{service.title}</h3>
                 <p className={styles.serviceDescription}>{service.description}</p>
                 <span className={styles.serviceLink}>
@@ -129,7 +153,9 @@ export default function Home() {
               <ul className={styles.whyList}>
                 {whyChoose.map((item, index) => (
                   <li key={index} className={styles.whyItem}>
-                    <span className={styles.whyCheck}>✓</span>
+                    <span className={styles.whyCheck} aria-hidden="true">
+                      <Icon name="check" size={13} strokeWidth={2.6} />
+                    </span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -139,11 +165,18 @@ export default function Home() {
               </Link>
             </div>
             <div className={styles.whyVisual}>
-              <div className={styles.whyImagePlaceholder}>
-                <div className={styles.whyQuote}>
-                  <p>&quot;Sağlıklı beslenme, yaşam boyu sürdürülebilir olmalı.&quot;</p>
-                  <span>— Dyt. Ali Koşar</span>
-                </div>
+              <div className={styles.whyImageWrapper}>
+                <Photo
+                  src="/images/danisma-seansi.jpg"
+                  alt="Ali Koşar danışanıyla beslenme görüşmesi yaparken"
+                  className={styles.whyPhoto}
+                  sizes="(min-width: 1024px) 560px, 90vw"
+                />
+                <figure className={styles.whyQuote}>
+                  <Icon name="quote" size={26} aria-hidden="true" />
+                  <blockquote>Sağlıklı beslenme, yaşam boyu sürdürülebilir olmalı.</blockquote>
+                  <figcaption>— Dyt. Ali Koşar</figcaption>
+                </figure>
               </div>
             </div>
           </div>
@@ -160,7 +193,7 @@ export default function Home() {
           <div className={styles.testimonialsGrid}>
             {testimonials.map((testimonial, index) => (
               <div key={index} className={styles.testimonialCard}>
-                <div className={styles.testimonialStars}>⭐⭐⭐⭐⭐</div>
+                <Stars className={styles.testimonialStars} />
                 <p className={styles.testimonialText}>&quot;{testimonial.text}&quot;</p>
                 <div className={styles.testimonialAuthor}>
                   <div className={styles.authorAvatar}>{testimonial.initials}</div>
@@ -193,7 +226,7 @@ export default function Home() {
             </p>
             <div className={styles.ctaButtons}>
               <Link href="/iletisim" className={styles.btnWhite}>
-                <span>📞</span>
+                <Icon name="phone" size={18} aria-hidden="true" />
                 Hemen Ara
               </Link>
               <Link href="/iletisim" className={styles.btnOutline}>
@@ -212,15 +245,20 @@ export default function Home() {
             <h2 className={styles.sectionTitle}>Sağlıklı Yaşam İpuçları</h2>
           </div>
           <div className={styles.blogGrid}>
-            {blogPosts.map((post, index) => (
-              <Link href={post.href} key={index} className={styles.blogCard}>
-                <div className={styles.blogImagePlaceholder}>
-                  <span className={styles.blogEmoji}>{post.emoji}</span>
-                </div>
+            {blogPosts.map((post) => (
+              <Link href={`/blog/${post.slug}`} key={post.slug} className={styles.blogCard}>
+                <Photo
+                  src={post.image}
+                  alt={post.title}
+                  className={styles.blogImage}
+                  sizes="(min-width: 1024px) 380px, 90vw"
+                />
                 <div className={styles.blogContent}>
                   <span className={styles.blogCategory}>{post.category}</span>
                   <h3 className={styles.blogTitle}>{post.title}</h3>
-                  <span className={styles.blogDate}>{post.date}</span>
+                  <time className={styles.blogDate} dateTime={post.publishedAt}>
+                    {formatDate(post.publishedAt)}
+                  </time>
                 </div>
               </Link>
             ))}
@@ -239,25 +277,25 @@ export default function Home() {
 // Data
 const services = [
   {
-    icon: "⚖️",
+    icon: "scale" as IconName,
     title: "Kilo Yönetimi",
     description: "Sağlıklı ve kalıcı kilo verme/alma programları ile ideal kilonuza ulaşın.",
     href: "/hizmetler#kilo-yonetimi"
   },
   {
-    icon: "💪",
+    icon: "dumbbell" as IconName,
     title: "Sporcu Beslenmesi",
     description: "Performansınızı artıracak, supplement destekli beslenme programları.",
     href: "/hizmetler#sporcu-beslenmesi"
   },
   {
-    icon: "🩺",
+    icon: "stethoscope" as IconName,
     title: "Klinik Beslenme",
     description: "Diyabet, tiroid, hipertansiyon gibi hastalıklarda özel beslenme.",
     href: "/hizmetler#klinik-beslenme"
   },
   {
-    icon: "🌾",
+    icon: "wheat" as IconName,
     title: "Özel Beslenme",
     description: "Çölyak, ketojenik diyet ve özel durumlar için beslenme planları.",
     href: "/hizmetler#ozel-beslenme"
@@ -265,8 +303,9 @@ const services = [
 ];
 
 const whyChoose = [
-  "İzmir Katip Çelebi Üniversitesi mezunu, lisanslı diyetisyen",
-  "5+ yıl klinik ve bireysel danışmanlık deneyimi",
+  "Antalyaspor altyapı ve voleybol şubesi diyetisyeni",
+  "İzmir Katip Çelebi Üniversitesi Beslenme ve Diyetetik mezunu",
+  "Dr. Behçet Uz ve Çiğli Bölge Eğitim Hastanesi'nde klinik staj deneyimi",
   "Lezzetli ve uygulanabilir diyet programları",
   "Yasaklama yerine eğitim ve farkındalık odaklı yaklaşım",
   "Online ve yüz yüze danışmanlık seçenekleri",
@@ -290,29 +329,5 @@ const testimonials = [
     name: "Fatma T.",
     initials: "FT",
     detail: "Tip 2 Diyabet"
-  },
-];
-
-const blogPosts = [
-  {
-    emoji: "🥗",
-    title: "Antalya'da Sağlıklı Beslenme Rehberi",
-    category: "Beslenme İpuçları",
-    date: "10 Ocak 2026",
-    href: "/blog/antalya-saglikli-beslenme"
-  },
-  {
-    emoji: "🏋️",
-    title: "Sporcu Beslenmesinde Supplement Kullanımı",
-    category: "Sporcu Beslenmesi",
-    date: "5 Ocak 2026",
-    href: "/blog/sporcu-supplement"
-  },
-  {
-    emoji: "🍞",
-    title: "Glutensiz Yaşam: Çölyak Hastaları İçin Pratik Tarifler",
-    category: "Özel Beslenme",
-    date: "1 Ocak 2026",
-    href: "/blog/glutensiz-yasam"
   },
 ];

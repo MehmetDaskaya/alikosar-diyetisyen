@@ -159,6 +159,20 @@
   cursor: pointer;
 }
 
+.formConsent {
+  margin-top: var(--space-md);
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--color-gray-500);
+  text-align: center;
+}
+
+.formConsent a {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .submitButton {
   display: inline-flex;
   align-items: center;
@@ -194,8 +208,6 @@
   height: 80px;
   background: var(--color-primary);
   color: var(--color-white);
-  font-size: 2rem;
-  font-weight: 700;
   border-radius: 50%;
   margin-bottom: var(--space-lg);
 }
@@ -258,7 +270,15 @@
 }
 
 .infoIcon {
-  font-size: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-lg);
+  background: var(--color-cream);
+  color: var(--color-primary-dark);
 }
 
 .infoLabel {
@@ -368,42 +388,47 @@
   padding: 0 0 var(--space-5xl);
 }
 
-.mapPlaceholder {
-  max-width: var(--container-xl);
-  margin: 0 auto;
-  padding: 0 var(--space-lg);
+.mapCard {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
 }
 
-@media (min-width: 768px) {
-  .mapPlaceholder {
-    padding: 0 var(--space-xl);
-  }
+.map {
+  display: block;
+  width: 100%;
+  height: 380px;
+  border: 0;
+  filter: grayscale(0.25);
 }
 
-.mapPlaceholder {
-  background: var(--color-cream);
-  border-radius: var(--radius-xl);
-  padding: var(--space-4xl);
-  text-align: center;
+.mapFooter {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  padding: var(--space-lg) var(--space-xl);
+}
+
+.mapFooter p {
+  flex: 1 1 240px;
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-gray-600);
 }
 
 .mapIcon {
-  font-size: 4rem;
-  display: block;
-  margin-bottom: var(--space-lg);
-}
-
-.mapPlaceholder h3 {
-  font-family: var(--font-heading);
-  font-size: var(--text-2xl);
-  color: var(--color-secondary);
-  margin-bottom: var(--space-md);
-}
-
-.mapPlaceholder p {
-  font-size: var(--text-base);
-  color: var(--color-gray-600);
-  margin-bottom: var(--space-xl);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-cream);
+  color: var(--color-primary-dark);
 }
 
 .mapButton {

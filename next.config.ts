@@ -1,33 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactCompiler: true,
-  
-  // Redirect configuration for SEO
+
+  // Depoda üst klasörde başka bir lockfile olduğu için kökü açıkça belirtiyoruz.
+  turbopack: {
+    root: __dirname,
+  },
+
+  // Eski alan adından 301 yönlendirme
   async redirects() {
     return [
       {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'antalyadiyetisyen.net',
-          },
-        ],
-        destination: 'https://diyetisyenalikosar.com/:path*',
-        permanent: true, // 301 redirect
+        source: "/:path*",
+        has: [{ type: "host", value: "antalyadiyetisyen.net" }],
+        destination: "https://diyetisyenalikosar.com/:path*",
+        permanent: true,
       },
       {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.antalyadiyetisyen.net',
-          },
-        ],
-        destination: 'https://diyetisyenalikosar.com/:path*',
-        permanent: true, // 301 redirect
+        source: "/:path*",
+        has: [{ type: "host", value: "www.antalyadiyetisyen.net" }],
+        destination: "https://diyetisyenalikosar.com/:path*",
+        permanent: true,
       },
     ];
   },

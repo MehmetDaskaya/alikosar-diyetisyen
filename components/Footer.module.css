@@ -52,7 +52,16 @@
 }
 
 .logoIcon {
-  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-primary-light);
+  font-size: 1.25rem;
 }
 
 .logoText {
@@ -95,7 +104,7 @@
   height: 44px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
-  font-size: 1.25rem;
+  color: var(--color-white);
   text-decoration: none;
   transition: all var(--transition-base);
 }
@@ -160,9 +169,12 @@
 }
 
 .contactIcon {
-  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   margin-top: 2px;
+  color: var(--color-primary-light);
 }
 
 .contactItem a {

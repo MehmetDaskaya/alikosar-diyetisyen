@@ -2,14 +2,16 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { site, absoluteUrl, credentials } from "../lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://diyetisyenalikosar.com"),
+  metadataBase: new URL(site.url),
   title: {
     default: "Diyetisyen Ali Koşar | Antalya Beslenme ve Diyet Danışmanlığı",
-    template: "%s | Diyetisyen Ali Koşar"
+    template: "%s | Diyetisyen Ali Koşar",
   },
-  description: "Antalya'da profesyonel beslenme ve diyet danışmanlığı. Kilo yönetimi, sporcu beslenmesi, klinik beslenme ve kişiye özel diyet programları. Sağlıklı yaşam için lezzetten ödün vermeden beslenin.",
+  description:
+    "Antalya'da profesyonel beslenme ve diyet danışmanlığı. Kilo yönetimi, sporcu beslenmesi, klinik beslenme ve kişiye özel diyet programları. Sağlıklı yaşam için lezzetten ödün vermeden beslenin.",
   keywords: [
     "Antalya diyetisyen",
     "Muratpaşa beslenme danışmanlığı",
@@ -20,11 +22,11 @@ export const metadata: Metadata = {
     "Ali Koşar",
     "sağlıklı beslenme",
     "obezite tedavisi",
-    "diyabet diyeti"
+    "diyabet diyeti",
   ],
-  authors: [{ name: "Diyetisyen Ali Koşar" }],
-  creator: "Diyetisyen Ali Koşar",
-  publisher: "Diyetisyen Ali Koşar",
+  authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.name,
   robots: {
     index: true,
     follow: true,
@@ -36,105 +38,160 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  // NOT: canonical bilerek burada tanımlanmıyor. Kök layout'ta tanımlanırsa
+  // bütün alt sayfalar ana sayfayı canonical gösterir ve dizinden düşer.
+  // Her sayfa kendi `alternates.canonical` değerini verir.
   openGraph: {
     type: "website",
-    locale: "tr_TR",
-    url: "https://diyetisyenalikosar.com",
-    siteName: "Diyetisyen Ali Koşar",
+    locale: site.locale,
+    url: site.url,
+    siteName: site.name,
     title: "Diyetisyen Ali Koşar | Antalya Beslenme ve Diyet Danışmanlığı",
-    description: "Antalya'da profesyonel beslenme ve diyet danışmanlığı. Kişiye özel diyet programları ile sağlıklı yaşam.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Diyetisyen Ali Koşar - Antalya",
-      },
-    ],
+    description:
+      "Antalya'da profesyonel beslenme ve diyet danışmanlığı. Kişiye özel diyet programları ile sağlıklı yaşam.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Diyetisyen Ali Koşar | Antalya",
     description: "Antalya'da profesyonel beslenme ve diyet danışmanlığı",
-    images: ["/og-image.jpg"],
   },
-  verification: {
-    google: "your-google-verification-code",
-  },
-  alternates: {
-    canonical: "https://diyetisyenalikosar.com",
-  },
+  // Google Search Console doğrulama kodu ortam değişkeninden gelir.
+  // Vercel'de NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION tanımlayın.
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
-// JSON-LD Structured Data for Local Business
-const jsonLd = {
-  "@context": "https://schema.org",
+const businessId = `${site.url}/#business`;
+const personId = `${site.url}/#alikosar`;
+
+// Yerel işletme (LocalBusiness/Dietitian) yapılandırılmış verisi
+const businessSchema = {
   "@type": "Dietitian",
-  "@id": "https://diyetisyenalikosar.com",
-  name: "Diyetisyen Ali Koşar",
-  alternateName: "Ali Koşar Beslenme ve Diyet Danışmanlık Merkezi",
-  description: "Antalya'da profesyonel beslenme ve diyet danışmanlığı hizmeti sunan uzman diyetisyen.",
-  url: "https://diyetisyenalikosar.com",
-  telephone: "+90-XXX-XXX-XXXX",
-  email: "info@alikosar.com",
-  image: "https://diyetisyenalikosar.com/ali-kosar.jpg",
+  "@id": businessId,
+  name: site.name,
+  alternateName: site.legalName,
+  description: site.description,
+  url: site.url,
+  telephone: site.phone,
+  image: absoluteUrl("/images/ali-kosar-portre.jpg"),
+  logo: absoluteUrl("/images/ali-kosar-portre.jpg"),
+  founder: { "@id": personId },
+  employee: { "@id": personId },
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Şirinyalı Mahallesi 1507 sokak, Şirinyalı, 2 Apartmanı no:46 Kat:1 Daire:3",
-    addressLocality: "Muratpaşa",
-    addressRegion: "Antalya",
-    postalCode: "07230",
-    addressCountry: "TR"
+    streetAddress: site.address.street,
+    addressLocality: site.address.district,
+    addressRegion: site.address.city,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.country,
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: 36.8841,
-    longitude: 30.7056
+    latitude: site.address.latitude,
+    longitude: site.address.longitude,
   },
-  areaServed: {
-    "@type": "City",
-    name: "Antalya"
-  },
+  hasMap: `https://www.google.com/maps/search/?api=1&query=${site.address.latitude},${site.address.longitude}`,
+  areaServed: [
+    { "@type": "City", name: "Antalya" },
+    { "@type": "AdministrativeArea", name: "Muratpaşa" },
+    { "@type": "AdministrativeArea", name: "Konyaaltı" },
+    { "@type": "AdministrativeArea", name: "Kepez" },
+  ],
+  availableLanguage: { "@type": "Language", name: "Turkish" },
   priceRange: "₺₺",
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      opens: "09:00",
-      closes: "18:00"
-    }
-  ],
-  sameAs: [
-    "https://www.instagram.com/dytalikosar/",
-    "https://www.facebook.com/diyetisyenalikosar"
-  ],
+  currenciesAccepted: "TRY",
+  openingHoursSpecification: site.openingHours.map((slot) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: [...slot.days],
+    opens: slot.opens,
+    closes: slot.closes,
+  })),
+  sameAs: [site.social.instagram],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Beslenme ve Diyet Hizmetleri",
     itemListElement: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Kilo Yönetimi"
-        }
+      "Kilo Yönetimi",
+      "Sporcu Beslenmesi",
+      "Klinik Beslenme",
+      "Özel Beslenme Durumları",
+      "Hamilelik ve Emzirme Beslenmesi",
+      "Çocuk ve Ergen Beslenmesi",
+    ].map((name) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name, provider: { "@id": businessId } },
+    })),
+  },
+};
+
+// Uzmanın kendisi: arama motorlarının ve yapay zekâ araçlarının
+// "Ali Koşar kimdir" sorusunu doğru varlığa bağlaması için.
+const personSchema = {
+  "@type": "Person",
+  "@id": personId,
+  name: "Ali Koşar",
+  givenName: "Ali",
+  familyName: "Koşar",
+  honorificPrefix: "Dyt.",
+  jobTitle: "Diyetisyen",
+  description:
+    "İzmir Katip Çelebi Üniversitesi Beslenme ve Diyetetik mezunu, Antalya'da bireysel ve klinik beslenme danışmanlığı veren diyetisyen.",
+  image: absoluteUrl("/images/ali-kosar-portre.jpg"),
+  url: absoluteUrl("/hakkimda"),
+  worksFor: { "@id": businessId },
+  affiliation: {
+    "@type": "SportsOrganization",
+    name: credentials.affiliation.organization,
+    url: credentials.affiliation.url,
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: credentials.education.school,
+  },
+  hasCredential: [
+    {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "degree",
+      name: `${credentials.education.program} Lisans Diploması`,
+      educationalLevel: "Lisans",
+      recognizedBy: {
+        "@type": "CollegeOrUniversity",
+        name: credentials.education.school,
       },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Sporcu Beslenmesi"
-        }
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Klinik Beslenme"
-        }
-      }
-    ]
-  }
+      dateCreated: String(credentials.education.graduationYear),
+    },
+    ...credentials.certificates.map((item) => ({
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "certificate",
+      name: item.name,
+      recognizedBy: { "@type": "Organization", name: item.issuer },
+      dateCreated: String(item.year),
+    })),
+  ],
+  knowsAbout: [
+    "Beslenme ve diyetetik",
+    "Kilo yönetimi",
+    "Sporcu beslenmesi",
+    "Klinik beslenme",
+    "Diyabet beslenmesi",
+    "Çölyak ve glutensiz beslenme",
+  ],
+  sameAs: [site.social.instagram],
+};
+
+const websiteSchema = {
+  "@type": "WebSite",
+  "@id": `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  inLanguage: "tr-TR",
+  publisher: { "@id": businessId },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [businessSchema, personSchema, websiteSchema],
 };
 
 export default function RootLayout({
@@ -144,13 +201,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      <head>
+      <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body>
         <Header />
         <main>{children}</main>
         <Footer />
