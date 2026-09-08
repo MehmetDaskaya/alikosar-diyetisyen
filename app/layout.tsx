@@ -57,11 +57,12 @@ export const metadata: Metadata = {
     title: "Diyetisyen Ali Koşar | Antalya",
     description: "Antalya'da profesyonel beslenme ve diyet danışmanlığı",
   },
-  // Google Search Console doğrulama kodu ortam değişkeninden gelir.
-  // Vercel'de NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION tanımlayın.
-  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
-    : undefined,
+  // Google Search Console doğrulama kodu
+  verification: {
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+      "_MAaFENZpO-hgHMulUNadi98X6gIMeHfqdQRjZ6q5C0",
+  },
 };
 
 const businessId = `${site.url}/#business`;
