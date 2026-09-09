@@ -2,8 +2,14 @@
 
 .hero {
   position: relative;
-  padding: 140px 0 60px;
+  padding: 105px 0 45px;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: 140px 0 60px;
+  }
 }
 
 .heroBackground {
@@ -71,10 +77,10 @@
 }
 
 .title {
-  font-size: var(--text-4xl);
+  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.75rem);
   color: var(--color-secondary);
   margin-bottom: var(--space-lg);
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .excerpt {

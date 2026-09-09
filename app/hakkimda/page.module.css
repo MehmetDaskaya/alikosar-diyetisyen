@@ -2,8 +2,14 @@
 
 .hero {
   position: relative;
-  padding: 140px 0 80px;
+  padding: 105px 0 50px;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: 140px 0 80px;
+  }
 }
 
 .heroBackground {
@@ -73,7 +79,7 @@
 }
 
 .heroTitle {
-  font-size: var(--text-5xl);
+  font-size: clamp(2rem, 1.4rem + 2.5vw, 3.25rem);
   color: var(--color-secondary);
   margin-bottom: var(--space-lg);
 }
@@ -103,12 +109,19 @@
 
 .quickStats {
   display: flex;
-  justify-content: center;
-  gap: var(--space-xl);
-  padding: var(--space-lg);
+  justify-content: space-around;
+  gap: var(--space-sm);
+  padding: var(--space-md);
   background: var(--color-white);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
+}
+
+@media (min-width: 640px) {
+  .quickStats {
+    gap: var(--space-xl);
+    padding: var(--space-lg);
+  }
 }
 
 @media (min-width: 1024px) {

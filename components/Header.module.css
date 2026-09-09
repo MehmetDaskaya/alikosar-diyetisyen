@@ -155,7 +155,8 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  z-index: calc(var(--z-modal) + 1);
+  z-index: calc(var(--z-modal) + 2);
+  position: relative;
 }
 
 @media (min-width: 1024px) {
@@ -200,102 +201,190 @@
 .mobileMenuBtn.active .hamburger::before {
   top: 0;
   transform: rotate(45deg);
-  background: var(--color-white);
+  background: var(--color-secondary);
 }
 
 .mobileMenuBtn.active .hamburger::after {
   bottom: 0;
   transform: rotate(-45deg);
-  background: var(--color-white);
+  background: var(--color-secondary);
 }
 
-/* Mobile Menu */
+@media (max-width: 1023px) {
+  .header {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    padding: var(--space-sm) 0;
+  }
+}
+
+/* Mobile Menu Overlay & Drawer */
 .mobileMenu {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-light) 100%);
+  inset: 0;
   z-index: var(--z-modal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
+  pointer-events: none;
   visibility: hidden;
-  transition: all var(--transition-slow);
+  transition: visibility 0.3s ease;
 }
 
 .mobileMenu.open {
-  opacity: 1;
+  pointer-events: auto;
   visibility: visible;
 }
 
+.mobileMenuBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobileMenu.open .mobileMenuBackdrop {
+  opacity: 1;
+}
+
+.mobileMenuSheet {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 340px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  padding: 84px 24px 32px;
+  overflow-y: auto;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.14);
+  transform: translateX(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobileMenu.open .mobileMenuSheet {
+  transform: translateX(0);
+}
+
 .mobileNav {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
 }
 
 .mobileNavList {
   list-style: none;
-  margin-bottom: var(--space-2xl);
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .mobileNavItem {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.mobileMenu.open .mobileNavItem {
-  animation: fadeInUp 0.5s ease forwards;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .mobileNavLink {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 8px;
   font-family: var(--font-heading);
-  font-size: var(--text-3xl);
-  font-weight: 500;
-  color: var(--color-white);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
   text-decoration: none;
-  padding: var(--space-md) 0;
+  border-radius: var(--radius-md);
   transition: all var(--transition-fast);
 }
 
-.mobileNavLink:hover {
-  color: var(--color-primary-light);
-  transform: translateX(10px);
+.mobileNavLink:hover,
+.mobileNavLink:active {
+  color: var(--color-primary);
+  background: var(--color-gray-50);
+  padding-left: 12px;
 }
 
-.mobileCta {
-  display: inline-flex;
-  padding: var(--space-md) var(--space-2xl);
-  font-size: var(--text-base);
+.chevron {
+  color: var(--color-gray-400);
+  transition: transform var(--transition-fast);
+}
+
+.mobileNavLink:hover .chevron {
+  transform: translateX(3px);
+  color: var(--color-primary);
+}
+
+.mobileActions {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mobileCtaPrimary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #ffffff;
   font-weight: 600;
-  color: var(--color-secondary);
-  background: var(--color-white);
+  font-size: 0.95rem;
   border-radius: var(--radius-full);
   text-decoration: none;
+  box-shadow: 0 4px 14px rgba(124, 182, 157, 0.35);
   transition: all var(--transition-base);
-  opacity: 0;
-  animation: fadeInUp 0.5s ease forwards;
-  animation-delay: 0.6s;
 }
 
-.mobileMenu.open .mobileCta {
-  opacity: 1;
+.mobileCtaPrimary:hover,
+.mobileCtaPrimary:active {
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
-.mobileCta:hover {
-  transform: scale(1.05);
+.mobileQuickContact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.quickContactBtn,
+.quickContactWhatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 10px;
+  border-radius: var(--radius-md);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.quickContactBtn {
+  background: var(--color-gray-100);
   color: var(--color-secondary);
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.quickContactBtn:hover {
+  background: var(--color-gray-200);
+}
+
+.quickContactWhatsapp {
+  background: rgba(37, 211, 102, 0.1);
+  color: #0d8550;
+  border: 1px solid rgba(37, 211, 102, 0.25);
+}
+
+.quickContactWhatsapp:hover {
+  background: rgba(37, 211, 102, 0.18);
 }

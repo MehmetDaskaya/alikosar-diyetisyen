@@ -97,9 +97,9 @@
 }
 
 .heroTitle {
-  font-size: var(--text-5xl);
+  font-size: clamp(2rem, 1.4rem + 2.5vw, 3.5rem);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
   color: var(--color-secondary);
   margin-bottom: var(--space-lg);
 }
@@ -274,7 +274,9 @@
 
 /* Hero Visual */
 .heroVisual {
-  display: none;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   animation: fadeIn 1s ease-out 0.3s both;
 }
 
@@ -286,7 +288,24 @@
 
 .heroImageWrapper {
   position: relative;
-  padding: var(--space-xl);
+  width: 100%;
+  max-width: 360px;
+  padding: var(--space-md);
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .heroImageWrapper {
+    max-width: 440px;
+    padding: var(--space-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroImageWrapper {
+    max-width: none;
+    padding: var(--space-xl);
+  }
 }
 
 .heroPhoto {
@@ -294,6 +313,7 @@
   aspect-ratio: 4/5;
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-2xl);
+  display: block;
 }
 
 .floatingCard {
@@ -301,14 +321,36 @@
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-md) var(--space-lg);
-  background: var(--color-white);
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
-  font-size: var(--text-sm);
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--color-secondary);
   animation: float 3s ease-in-out infinite;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .floatingCard:first-of-type {
+    top: 24px !important;
+    right: 4px !important;
+  }
+  .floatingCard:last-of-type {
+    bottom: 24px !important;
+    left: 4px !important;
+  }
+}
+
+@media (min-width: 641px) {
+  .floatingCard {
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--text-sm);
+  }
 }
 
 .floatingCard:nth-child(2) {
@@ -569,12 +611,16 @@
 }
 
 .whyVisual {
-  display: none;
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  margin: var(--space-2xl) auto 0;
 }
 
 @media (min-width: 1024px) {
   .whyVisual {
-    display: block;
+    margin: 0;
+    max-width: none;
   }
 }
 
@@ -587,14 +633,22 @@
 
 .whyPhoto {
   aspect-ratio: 1;
+  display: block;
+  width: 100%;
 }
 
 .whyImageWrapper .whyQuote {
   position: absolute;
   inset: auto 0 0 0;
-  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
-  background: linear-gradient(to top, rgba(30, 58, 95, 0.92) 45%, rgba(30, 58, 95, 0));
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  background: linear-gradient(to top, rgba(30, 58, 95, 0.95) 50%, rgba(30, 58, 95, 0));
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .whyImageWrapper .whyQuote {
+    padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  }
 }
 
 .whyQuote {

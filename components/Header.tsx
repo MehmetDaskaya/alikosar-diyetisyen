@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Icon from "./Icon";
+import { site, whatsappUrl } from "../lib/site";
 import styles from "./Header.module.css";
 
 const navLinks = [
@@ -20,22 +21,38 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Mobil menü açıkken arka plandaki sayfanın kaymasını engelle
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
+
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileMenuOpen((prev) => !prev);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <div className={styles.container}>
         {/* Logo */}
-        <Link href="/" className={styles.logo}>
+        <Link href="/" className={styles.logo} onClick={closeMobileMenu}>
           <span className={styles.logoIcon} aria-hidden="true">
             <Icon name="leaf" />
           </span>
@@ -45,7 +62,7 @@ export default function Header() {
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Masaüstü Navigasyon */}
         <nav className={styles.nav}>
           <ul className={styles.navList}>
             {navLinks.map((link) => (
@@ -58,50 +75,80 @@ export default function Header() {
           </ul>
         </nav>
 
-        {/* CTA Button */}
+        {/* Masaüstü CTA */}
         <Link href="/iletisim" className={styles.ctaButton}>
           Randevu Al
         </Link>
 
-        {/* Mobile Menu Button */}
+        {/* Mobil Hamburger Butonu */}
         <button
           className={`${styles.mobileMenuBtn} ${isMobileMenuOpen ? styles.active : ""}`}
           onClick={toggleMobileMenu}
-          aria-label="Menüyü aç"
+          aria-label={isMobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
           aria-expanded={isMobileMenuOpen}
         >
           <span className={styles.hamburger}></span>
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ""}`}>
-        <nav className={styles.mobileNav}>
-          <ul className={styles.mobileNavList}>
-            {navLinks.map((link, index) => (
-              <li 
-                key={link.href} 
-                className={styles.mobileNavItem}
-                style={{ animationDelay: `${index * 0.1}s` }}
+      {/* Mobil Menü Drawer / Overlay */}
+      <div 
+        className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.open : ""}`}
+        aria-hidden={!isMobileMenuOpen}
+      >
+        <div className={styles.mobileMenuBackdrop} onClick={closeMobileMenu} />
+        
+        <div className={styles.mobileMenuSheet}>
+          <nav className={styles.mobileNav}>
+            <ul className={styles.mobileNavList}>
+              {navLinks.map((link) => (
+                <li key={link.href} className={styles.mobileNavItem}>
+                  <Link 
+                    href={link.href} 
+                    className={styles.mobileNavLink}
+                    onClick={closeMobileMenu}
+                  >
+                    <span>{link.label}</span>
+                    <svg className={styles.chevron} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M9 18l6-6-6-6" />
+                    </svg>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <div className={styles.mobileActions}>
+              <Link 
+                href="/iletisim" 
+                className={styles.mobileCtaPrimary}
+                onClick={closeMobileMenu}
               >
-                <Link 
-                  href={link.href} 
-                  className={styles.mobileNavLink}
-                  onClick={() => setIsMobileMenuOpen(false)}
+                Randevu Al
+              </Link>
+              
+              <div className={styles.mobileQuickContact}>
+                <a 
+                  href={`tel:${site.phone}`} 
+                  className={styles.quickContactBtn}
+                  aria-label="Telefonla ara"
                 >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link 
-            href="/iletisim" 
-            className={styles.mobileCta}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Randevu Al
-          </Link>
-        </nav>
+                  <Icon name="phone" size={18} />
+                  <span>{site.phoneDisplay}</span>
+                </a>
+                <a 
+                  href={whatsappUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={styles.quickContactWhatsapp}
+                  aria-label="WhatsApp'tan yaz"
+                >
+                  <Icon name="whatsapp" size={18} />
+                  <span>WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </nav>
+        </div>
       </div>
     </header>
   );

@@ -2,9 +2,15 @@
 
 .hero {
   position: relative;
-  padding: 160px 0 80px;
+  padding: 105px 0 50px;
   text-align: center;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding: 160px 0 80px;
+  }
 }
 
 .heroBackground {
@@ -43,7 +49,7 @@
 }
 
 .heroTitle {
-  font-size: var(--text-5xl);
+  font-size: clamp(2rem, 1.4rem + 2.5vw, 3.25rem);
   color: var(--color-secondary);
   margin-bottom: var(--space-lg);
 }
@@ -63,8 +69,15 @@
 
 /* Blog Section */
 .blogSection {
-  padding: var(--space-4xl) 0 var(--space-5xl);
+  padding: var(--space-3xl) 0 var(--space-4xl);
 }
+
+@media (min-width: 768px) {
+  .blogSection {
+    padding: var(--space-4xl) 0 var(--space-5xl);
+  }
+}
+
 
 .blogLayout {
   display: grid;
