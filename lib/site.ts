@@ -12,8 +12,8 @@ export const site = {
   locale: "tr_TR",
 
   // E.164 biçimi (Google bu formatı bekler).
-  phone: "+905340346944",
-  phoneDisplay: "+90 534 034 69 44",
+  phone: "+905353905172",
+  phoneDisplay: "+90 535 390 51 72",
 
   address: {
     street: "Şirinyalı Mahallesi 1507 Sokak, 2 Apartmanı No:46 Kat:1 Daire:3",
