@@ -3,7 +3,11 @@ import Link from "next/link";
 import Icon, { Stars, type IconName } from "../components/Icon";
 import Photo from "../components/Photo";
 import { getAllPosts, formatDate } from "../lib/blog-data";
-import { credentials } from "../lib/site";
+import { credentials, site } from "../lib/site";
+import { AnswerBlock, FaqSection, ReviewLine } from "../components/Seo";
+import JsonLd from "../components/JsonLd";
+import { graph, webPageNode } from "../lib/schema";
+import { ilceler } from "../lib/pages/ilceler";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -14,8 +18,23 @@ export const metadata: Metadata = {
 export default function Home() {
   const blogPosts = getAllPosts().slice(0, 3);
 
+  // FAQPage işaretlemesi bilerek burada yok: bu sorular /sik-sorulan-sorular
+  // sayfasına ait. Aynı soruyu iki URL'de işaretlemek Google tarafından
+  // yok sayılabiliyor. Sorular kullanıcı için aşağıda görünmeye devam ediyor.
+  const jsonLd = graph(
+    webPageNode({
+      path: "/",
+      name: "Diyetisyen Ali Koşar | Antalya Sporcu Beslenmesi",
+      description:
+        "Antalyaspor altyapı ve voleybol şubesi diyetisyeni. Sporcu beslenmesi, atletik performans ve hekim kontrolünde GLP-1 süreç yönetimi.",
+      medical: true,
+      about: ["Sporcu beslenmesi", "GLP-1 süreç yönetimi", "Antalya diyetisyen"],
+    }),
+  );
+
   return (
     <>
+      <JsonLd data={jsonLd} />
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
@@ -35,11 +54,14 @@ export default function Home() {
               Lezzetten Ödün Vermeden
               <span className={styles.heroHighlight}> Sağlıklı Yaşam</span>
             </h1>
-            <p className={styles.heroDescription}>
-              Sürdürülebilir beslenme ile yaşam kalitenizi artırın. Kişiye özel diyet 
-              programları ile hedeflerinize birlikte ulaşalım. Sadece liste değil, 
-              bir yaşam biçimi.
-            </p>
+            <AnswerBlock>
+              Dyt. Ali Koşar, Antalya Muratpaşa&apos;da çalışan{" "}
+              <strong>Antalyaspor altyapı ve voleybol şubesi diyetisyenidir.</strong>{" "}
+              Tıbbi biyokimya yüksek lisansı temelinde sporcu beslenmesi, atletik
+              performans, sakatlık dönemi beslenmesi ve hekim kontrolündeki{" "}
+              <strong>GLP-1 (zayıflama iğnesi)</strong> süreçlerinin beslenme yönetimini
+              yürütür. Randevu: <strong>{site.phoneDisplay}</strong>
+            </AnswerBlock>
             <div className={styles.heroButtons}>
               <Link href="/iletisim" className={styles.btnPrimary}>
                 <span>Ücretsiz Danışmanlık</span>
@@ -237,6 +259,30 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Yerel bölgeler — ilçe sayfalarına iç link akışı */}
+      <section className={styles.localSection}>
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionTag}>Antalya</span>
+            <h2 className={styles.sectionTitle}>Hangi Bölgeden Geliyorsunuz?</h2>
+            <p className={styles.sectionDescription}>
+              Klinik Muratpaşa Şirinyalı&apos;da. Aşağıdaki sayfalarda ulaşım süreleri
+              ve bölgeye özgü beslenme başlıkları yer alıyor.
+            </p>
+          </div>
+          <div className={styles.localGrid}>
+            {ilceler.map((i) => (
+              <Link key={i.slug} href={`/antalya-diyetisyen/${i.slug}`} className={styles.localCard}>
+                {i.name}
+              </Link>
+            ))}
+            <Link href="/online-diyet" className={styles.localCard}>
+              Online danışmanlık
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Blog Preview Section */}
       <section className={styles.blogSection}>
         <div className={styles.container}>
@@ -270,6 +316,16 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <FaqSection
+        items={homeFaq}
+        intro="Klinikte en sık sorulan sorular ve kısa cevapları."
+        moreHref="/sik-sorulan-sorular"
+        moreLabel="30 sorunun tamamını görün"
+      />
+
+      <div className={styles.container}>
+        <ReviewLine />
+      </div>
     </>
   );
 }
@@ -277,28 +333,28 @@ export default function Home() {
 // Data
 const services = [
   {
-    icon: "scale" as IconName,
-    title: "Kilo Yönetimi",
-    description: "Sağlıklı ve kalıcı kilo verme/alma programları ile ideal kilonuza ulaşın.",
-    href: "/hizmetler#kilo-yonetimi"
-  },
-  {
     icon: "dumbbell" as IconName,
     title: "Sporcu Beslenmesi",
-    description: "Performansınızı artıracak, supplement destekli beslenme programları.",
-    href: "/hizmetler#sporcu-beslenmesi"
+    description: "Vücut kompozisyonu ölçümü, sezon periyodizasyonu ve maç günü protokolleri.",
+    href: "/sporcu-beslenmesi-antalya",
+  },
+  {
+    icon: "scale" as IconName,
+    title: "Zayıflama İğnesi (GLP-1)",
+    description: "Mounjaro ve Ozempic sürecinde kas kaybını, safra riskini ve yan etkileri yönetmek.",
+    href: "/zayiflama-ignesi-diyetisyeni-antalya",
   },
   {
     icon: "stethoscope" as IconName,
-    title: "Klinik Beslenme",
-    description: "Diyabet, tiroid, hipertansiyon gibi hastalıklarda özel beslenme.",
-    href: "/hizmetler#klinik-beslenme"
+    title: "Biohacking ve Longevity",
+    description: "Biyobelirteç takibi, metabolik esneklik ve uyku üzerinden ölçüme dayalı optimizasyon.",
+    href: "/biohacking-ve-longevity-antalya",
   },
   {
     icon: "wheat" as IconName,
-    title: "Özel Beslenme",
-    description: "Çölyak, ketojenik diyet ve özel durumlar için beslenme planları.",
-    href: "/hizmetler#ozel-beslenme"
+    title: "Klinik Beslenme",
+    description: "Diyabet, tiroid, insülin direnci, çölyak ve gastrointestinal hastalıklarda beslenme.",
+    href: "/hizmetler",
   },
 ];
 
@@ -329,5 +385,44 @@ const testimonials = [
     name: "Fatma T.",
     initials: "FT",
     detail: "Tip 2 Diyabet"
+  },
+];
+
+/**
+ * Ana sayfada gösterilen sorular.
+ * Yapısal verisi /sik-sorulan-sorular sayfasına ait olduğundan burada
+ * FAQPage işaretlemesi yapılmıyor — aynı soruyu iki URL'de işaretlemek
+ * Google tarafından yok sayılabiliyor.
+ */
+const homeFaq = [
+  {
+    question: "Antalya'da sporcu beslenmesi konusunda uzman diyetisyen kimdir?",
+    answer:
+      "Dyt. Ali Koşar, Antalyaspor altyapı ve voleybol şubesinin diyetisyenliğini yürütmekte ve TFF gelişim kampı sürecinde alt yaş kategorilerine beslenme desteği vermektedir. İzmir Katip Çelebi Üniversitesi Beslenme ve Diyetetik mezunu olup Burdur Mehmet Akif Ersoy Üniversitesi'nde tıbbi biyokimya yüksek lisansı yapmıştır. Kliniği Antalya Muratpaşa Şirinyalı Mahallesi'ndedir.",
+    canonical: "/sik-sorulan-sorular",
+  },
+  {
+    question: "Zayıflama iğnesi kullanırken diyetisyen desteği gerekir mi?",
+    answer:
+      "GLP-1 grubu ilaçlar iştahı baskılar ancak besin seçimini veya kas korumasını düzenlemez. Bu ilaçlarla kaybedilen kilonun yaklaşık %25'i yağsız dokudan gelir ve hızlı kayıp safra taşı riskini artırır. Günde kilogram başına 1,2–1,6 gram protein, haftada 2–3 gün direnç antrenmanı ve haftalık kaybın %1'i aşmaması bu risklerin ikisini de belirgin biçimde azaltır.",
+    canonical: "/zayiflama-ignesi-diyetisyeni-antalya",
+  },
+  {
+    question: "İlk görüşme nasıl geçiyor ve ne kadar sürüyor?",
+    answer:
+      "İlk görüşme 45–60 dakika sürer. Sağlık geçmişi, kullanılan ilaçlar, uyku ve iş düzeni, antrenman geçmişi ve daha önce denenen diyetler değerlendirilir; ardından vücut kompozisyonu ölçümü yapılır. Varsa kan tahlilleriniz birlikte incelenir. Program görüşmeden sonra, toplanan veriye göre hazırlanır.",
+    canonical: "/sik-sorulan-sorular",
+  },
+  {
+    question: "Online diyet takibi yapıyor musunuz?",
+    answer:
+      "Evet. Görüşmeler video konferansla yürütülür ve program aynı şekilde hazırlanır. Vücut kompozisyonu ölçümü için periyodik klinik ziyareti önerilir; bu mümkün değilse ulaşılabilir bir ölçüm merkezine yönlendirme yapılır. Şehir dışında yaşayan veya kamp/deplasman nedeniyle sık seyahat eden danışanlar için uygundur.",
+    canonical: "/online-diyet",
+  },
+  {
+    question: "Diyet listesi mi veriyorsunuz, program mı?",
+    answer:
+      "Verilen şey tek seferlik bir liste değil, ölçüme dayalı ve düzenli olarak revize edilen bir süreçtir. Başlangıçta vücut kompozisyonu ölçülür ve varsa kan değerleri değerlendirilir; plan bu veriye göre kurulur ve 4–8 haftada bir tekrarlanan ölçümlerle güncellenir. Aynı listenin aylarca değişmemesi iyi bir işaret değildir.",
+    canonical: "/sik-sorulan-sorular",
   },
 ];

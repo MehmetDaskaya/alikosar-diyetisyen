@@ -1,0 +1,261 @@
+/* ============================================
+   SEO / GEO BİLEŞENLERİ
+   Breadcrumb, cevap bloğu, SSS, kanıt şeridi
+   ============================================ */
+
+/* ---------- Breadcrumbs ---------- */
+.breadcrumbs {
+  font-size: var(--text-xs);
+  color: var(--color-gray-500);
+  padding: var(--space-md) 0 0;
+}
+
+.crumbList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  list-style: none;
+}
+
+.crumbItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.crumbLink {
+  color: var(--color-gray-500);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.crumbLink:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.crumbCurrent {
+  color: var(--color-secondary);
+  font-weight: 500;
+}
+
+.crumbSep {
+  color: var(--color-gray-300);
+}
+
+/* ---------- Cevap Bloğu (GEO answer block) ---------- */
+.answer {
+  position: relative;
+  margin: var(--space-xl) 0;
+  padding: var(--space-lg) var(--space-xl);
+  background: linear-gradient(135deg, rgba(124, 182, 157, 0.09), rgba(124, 182, 157, 0.03));
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+}
+
+.answerLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-sm);
+}
+
+.answerText {
+  font-size: var(--text-lg);
+  line-height: 1.65;
+  color: var(--color-gray-800);
+}
+
+.answerText strong {
+  color: var(--color-secondary);
+  font-weight: 600;
+}
+
+/* ---------- Kanıt şeridi ---------- */
+.proofStrip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-md);
+  margin: var(--space-2xl) 0;
+}
+
+.proofCard {
+  padding: var(--space-lg);
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.proofCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.proofValue {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  line-height: 1.1;
+}
+
+.proofLabel {
+  display: block;
+  margin-top: var(--space-xs);
+  font-size: var(--text-sm);
+  color: var(--color-gray-600);
+}
+
+/* ---------- SSS ---------- */
+.faqSection {
+  padding: var(--space-4xl) 0;
+  background: var(--color-off-white);
+}
+
+.faqInner {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.faqHeading {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  color: var(--color-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+.faqIntro {
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-xl);
+}
+
+.faqItem {
+  border-bottom: 1px solid var(--color-gray-200);
+  background: transparent;
+}
+
+.faqItem[open] .faqQuestion {
+  color: var(--color-primary-dark);
+}
+
+.faqItem[open] .faqMarker {
+  transform: rotate(45deg);
+}
+
+.faqQuestion {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0;
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-secondary);
+  cursor: pointer;
+  list-style: none;
+  transition: color var(--transition-fast);
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqMarker {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--color-primary);
+  transition: transform var(--transition-base);
+}
+
+.faqAnswer {
+  padding: 0 0 var(--space-lg);
+  color: var(--color-gray-700);
+  line-height: 1.75;
+  max-width: 70ch;
+}
+
+/* ---------- Son güncelleme / tıbbi uyarı ---------- */
+.reviewLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-xs);
+  color: var(--color-gray-500);
+  margin-top: var(--space-lg);
+}
+
+.reviewDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+}
+
+.disclaimer {
+  margin: var(--space-2xl) 0 0;
+  padding: var(--space-lg);
+  border: 1px dashed var(--color-gray-300);
+  border-radius: var(--radius-lg);
+  background: var(--color-gray-100);
+  font-size: var(--text-sm);
+  color: var(--color-gray-600);
+  line-height: 1.7;
+}
+
+.disclaimer strong {
+  color: var(--color-gray-800);
+}
+
+@media (max-width: 640px) {
+  .answer {
+    padding: var(--space-md) var(--space-lg);
+  }
+}
+
+/* ---------- SSS: çapraz bağlantılar ---------- */
+.faqMore {
+  display: inline-block;
+  margin-top: var(--space-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  text-decoration: none;
+}
+
+.faqMore:hover {
+  text-decoration: underline;
+}
+
+.faqAllLink {
+  display: inline-block;
+  margin-top: var(--space-xl);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-full);
+  background: var(--color-white);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-secondary);
+  text-decoration: none;
+  transition: transform var(--transition-base), border-color var(--transition-base);
+}
+
+.faqAllLink:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+}

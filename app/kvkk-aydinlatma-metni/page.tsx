@@ -4,7 +4,7 @@ import LegalPage, { legalStyles as styles } from "../../components/LegalPage";
 import { site } from "../../lib/site";
 
 export const metadata: Metadata = {
-  title: "KVKK Aydınlatma Metni",
+  title: "KVKK Aydınlatma Metni | Diyetisyen Ali Koşar",
   description:
     "6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında Diyetisyen Ali Koşar tarafından işlenen kişisel verilere ilişkin aydınlatma metni.",
   alternates: { canonical: "/kvkk-aydinlatma-metni" },

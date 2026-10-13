@@ -46,7 +46,7 @@
   margin: 0 auto;
   padding: 0 var(--space-lg);
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3xl);
   align-items: center;
 }
@@ -59,7 +59,7 @@
 
 @media (min-width: 1024px) {
   .heroContainer {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-4xl);
   }
 }
@@ -194,7 +194,7 @@
 /* Hero Stats */
 .heroStats {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   justify-content: center;
   gap: var(--space-md);
@@ -212,7 +212,7 @@
 /* "Antalyaspor" tek kelime olduğu için dar ekranda alt alta diziliyor. */
 @media (min-width: 480px) {
   .heroStats {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -457,19 +457,19 @@
 
 .servicesGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-lg);
 }
 
 @media (min-width: 640px) {
   .servicesGrid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
   .servicesGrid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-xl);
   }
 }
@@ -553,14 +553,14 @@
 
 .whyGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-3xl);
   align-items: center;
 }
 
 @media (min-width: 1024px) {
   .whyGrid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 }
 
@@ -681,13 +681,13 @@
 
 .testimonialsGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xl);
 }
 
 @media (min-width: 768px) {
   .testimonialsGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -845,13 +845,13 @@
 
 .blogGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-xl);
 }
 
 @media (min-width: 768px) {
   .blogGrid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -907,4 +907,37 @@
 .blogFooter {
   text-align: center;
   margin-top: var(--space-3xl);
+}
+
+/* ---------- Yerel bölge bağlantıları ---------- */
+.localSection {
+  padding: var(--space-4xl, 6rem) 0;
+  background: var(--color-cream, #f5f5f0);
+}
+
+.localGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md, 1rem);
+}
+
+.localCard {
+  padding: 0.8rem 1.6rem;
+  border-radius: var(--radius-full, 9999px);
+  border: 1px solid var(--color-gray-300, #d4d4d4);
+  background: var(--color-white, #fff);
+  color: var(--color-secondary, #1e3a5f);
+  font-size: var(--text-sm, 0.95rem);
+  font-weight: 500;
+  text-decoration: none;
+  transition: transform 250ms ease, border-color 250ms ease,
+    background-color 250ms ease, color 250ms ease;
+}
+
+.localCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary-dark, #5a9178);
+  background: var(--color-primary-dark, #5a9178);
+  color: var(--color-white, #fff);
 }

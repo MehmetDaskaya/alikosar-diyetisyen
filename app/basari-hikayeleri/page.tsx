@@ -5,8 +5,8 @@ import { credentials } from "../../lib/site";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Başarı Hikayeleri",
-  description: "Diyetisyen Ali Koşar ile hedeflerine ulaşan danışanların başarı hikayeleri. Gerçek sonuçlar, gerçek insanlar.",
+  title: "Başarı Hikayeleri | Danışan Deneyimleri",
+  description: "Sporcu performansı, GLP-1 süreci, insülin direnci ve kilo yönetiminde danışan deneyimleri. Sonuçlar kişiseldir; süreçlerin nasıl işlediğini gösterir.",
   keywords: ["başarı hikayeleri", "diyet sonuçları", "kilo verme başarı", "danışan yorumları"],
   alternates: { canonical: "/basari-hikayeleri" },
   openGraph: {

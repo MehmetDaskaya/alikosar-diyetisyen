@@ -4,9 +4,9 @@ import LegalPage from "../../components/LegalPage";
 import { site } from "../../lib/site";
 
 export const metadata: Metadata = {
-  title: "Kullanım Koşulları",
+  title: "Kullanım Koşulları | Diyetisyen Ali Koşar",
   description:
-    "Diyetisyen Ali Koşar internet sitesinin kullanım koşulları, içerik sorumluluğu ve sağlık bilgisi uyarısı.",
+    "Bu web sitesinin kullanım koşulları: içeriklerin niteliği, tıbbi sorumluluk reddi, sonuçlara ilişkin açıklama, fikri mülkiyet ve dış bağlantılar.",
   alternates: { canonical: "/kullanim-kosullari" },
   openGraph: { url: "/kullanim-kosullari", title: "Kullanım Koşulları" },
 };

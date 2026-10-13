@@ -6,7 +6,7 @@ import { credentials } from "../../lib/site";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Hakkımda",
+  title: "Dyt. Ali Koşar Kimdir? | Antalya Diyetisyen",
   description: "Diyetisyen Ali Koşar hakkında. İzmir Katip Çelebi Üniversitesi mezunu, Antalya'da 5+ yıl deneyimli beslenme ve diyet uzmanı.",
   keywords: ["Ali Koşar", "diyetisyen", "beslenme uzmanı", "Antalya", "İzmir Katip Çelebi Üniversitesi"],
   alternates: { canonical: "/hakkimda" },

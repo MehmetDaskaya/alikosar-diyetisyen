@@ -4,16 +4,17 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import WhatsAppWidget from "../components/WhatsAppWidget";
 import { Analytics } from "@vercel/analytics/next";
-import { site, absoluteUrl, credentials } from "../lib/site";
+import { site, absoluteUrl, credentials, knowsAbout } from "../lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: {
-    default: "Diyetisyen Ali Koşar | Antalya Beslenme ve Diyet Danışmanlığı",
-    template: "%s | Diyetisyen Ali Koşar",
-  },
+  // NOT: `template` bilerek kullanılmıyor. Sayfa başlıklarının çoğu zaten
+  // ayırt edici bilgi taşıyor; şablon marka adını ikinci kez ekleyerek
+  // başlıkları 70-80 karaktere çıkarıyor ve Google arama sonucunda kesiyordu.
+  // Her sayfa kendi tam başlığını 60 karakterin altında verir.
+  title: "Diyetisyen Ali Koşar | Antalya Sporcu Beslenmesi",
   description:
-    "Antalya'da profesyonel beslenme ve diyet danışmanlığı. Kilo yönetimi, sporcu beslenmesi, klinik beslenme ve kişiye özel diyet programları. Sağlıklı yaşam için lezzetten ödün vermeden beslenin.",
+    "Antalyaspor altyapı ve voleybol şubesi diyetisyeni. Sporcu beslenmesi, atletik performans ve hekim kontrolünde GLP-1 süreç yönetimi. Antalya Muratpaşa.",
   keywords: [
     "Antalya diyetisyen",
     "Muratpaşa beslenme danışmanlığı",
@@ -96,10 +97,8 @@ const businessSchema = {
   },
   hasMap: `https://www.google.com/maps/search/?api=1&query=${site.address.latitude},${site.address.longitude}`,
   areaServed: [
-    { "@type": "City", name: "Antalya" },
-    { "@type": "AdministrativeArea", name: "Muratpaşa" },
-    { "@type": "AdministrativeArea", name: "Konyaaltı" },
-    { "@type": "AdministrativeArea", name: "Kepez" },
+    { "@type": "City", name: site.address.city },
+    ...site.serviceAreas.map((name) => ({ "@type": "AdministrativeArea", name })),
   ],
   availableLanguage: { "@type": "Language", name: "Turkish" },
   priceRange: "₺₺",
@@ -137,21 +136,36 @@ const personSchema = {
   givenName: "Ali",
   familyName: "Koşar",
   honorificPrefix: "Dyt.",
-  jobTitle: "Diyetisyen",
+  jobTitle: "Diyetisyen — Sporcu Beslenmesi ve Biyokimya",
   description:
-    "İzmir Katip Çelebi Üniversitesi Beslenme ve Diyetetik mezunu, Antalya'da bireysel ve klinik beslenme danışmanlığı veren diyetisyen.",
+    "Antalyaspor altyapı ve voleybol şubesi diyetisyeni; tıbbi biyokimya yüksek lisanslı. " +
+    "Sporcu beslenmesi, atletik performans ve hekim kontrolündeki GLP-1 süreçlerinde Antalya'da çalışıyor.",
   image: absoluteUrl("/images/ali-kosar-portre.jpg"),
   url: absoluteUrl("/hakkimda"),
   worksFor: { "@id": businessId },
-  affiliation: {
-    "@type": "SportsOrganization",
-    name: credentials.affiliation.organization,
-    url: credentials.affiliation.url,
-  },
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: credentials.education.school,
-  },
+  affiliation: [
+    {
+      "@type": "SportsOrganization",
+      name: credentials.affiliation.organization,
+      url: credentials.affiliation.url,
+    },
+    {
+      "@type": "SportsOrganization",
+      name: credentials.federation.organization,
+    },
+  ],
+  alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: credentials.education.school,
+      department: credentials.education.program,
+    },
+    {
+      "@type": "CollegeOrUniversity",
+      name: credentials.master.school,
+      department: credentials.master.program,
+    },
+  ],
   hasCredential: [
     {
       "@type": "EducationalOccupationalCredential",
@@ -164,6 +178,16 @@ const personSchema = {
       },
       dateCreated: String(credentials.education.graduationYear),
     },
+    {
+      "@type": "EducationalOccupationalCredential",
+      credentialCategory: "degree",
+      name: `${credentials.master.program} Yüksek Lisans`,
+      educationalLevel: "Yüksek Lisans",
+      recognizedBy: {
+        "@type": "CollegeOrUniversity",
+        name: credentials.master.school,
+      },
+    },
     ...credentials.certificates.map((item) => ({
       "@type": "EducationalOccupationalCredential",
       credentialCategory: "certificate",
@@ -172,14 +196,7 @@ const personSchema = {
       dateCreated: String(item.year),
     })),
   ],
-  knowsAbout: [
-    "Beslenme ve diyetetik",
-    "Kilo yönetimi",
-    "Sporcu beslenmesi",
-    "Klinik beslenme",
-    "Diyabet beslenmesi",
-    "Çölyak ve glutensiz beslenme",
-  ],
+  knowsAbout,
   sameAs: [site.social.instagram],
 };
 

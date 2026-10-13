@@ -352,7 +352,7 @@
 
 .mobileQuickContact {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
 }
 
@@ -387,4 +387,113 @@
 
 .quickContactWhatsapp:hover {
   background: rgba(37, 211, 102, 0.18);
+}
+
+/* ---------- Açılır menü (içerik katmanı birleştirmesi) ---------- */
+.hasDropdown {
+  position: relative;
+}
+
+.caret {
+  margin-left: 0.3rem;
+  transition: transform var(--transition-fast, 150ms ease);
+}
+
+.hasDropdown:hover .caret,
+.hasDropdown:focus-within .caret {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  min-width: 300px;
+  padding: 0.5rem;
+  background: var(--color-white, #fff);
+  border: 1px solid var(--color-gray-200, #e5e5e5);
+  border-radius: var(--radius-lg, 0.75rem);
+  box-shadow: var(--shadow-xl, 0 20px 25px -5px rgba(0, 0, 0, 0.1));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 250ms ease, transform 250ms ease, visibility 250ms ease;
+  z-index: 100;
+}
+
+/* Tetikleyici ile menü arasındaki boşlukta hover kaybolmasın */
+.dropdown::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+}
+
+.hasDropdown:hover .dropdown,
+.hasDropdown:focus-within .dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdownList {
+  list-style: none;
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+}
+
+.dropdownLink {
+  display: block;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius-md, 0.5rem);
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+
+.dropdownLink:hover {
+  background: var(--color-gray-100, #f7f7f7);
+}
+
+.dropdownLabel {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-secondary, #1e3a5f);
+  line-height: 1.35;
+}
+
+.dropdownNote {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.78rem;
+  color: var(--color-gray-500, #737373);
+  line-height: 1.4;
+}
+
+/* ---------- Mobil alt menü ---------- */
+.mobileSubList {
+  list-style: none;
+  margin: 0.25rem 0 0.75rem 1.25rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-gray-200, #e5e5e5);
+  display: grid;
+  gap: 0.35rem;
+}
+
+.mobileSubLink {
+  display: block;
+  padding: 0.35rem 0;
+  font-size: 0.9rem;
+  color: var(--color-gray-600, #525252);
+  text-decoration: none;
+}
+
+.mobileSubLink:hover {
+  color: var(--color-primary-dark, #5a9178);
 }

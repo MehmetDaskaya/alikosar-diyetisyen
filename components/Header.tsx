@@ -6,12 +6,35 @@ import Icon from "./Icon";
 import { site, whatsappUrl } from "../lib/site";
 import styles from "./Header.module.css";
 
-const navLinks = [
-  { href: "/", label: "Ana Sayfa" },
-  { href: "/hizmetler", label: "Hizmetler" },
+interface NavLink {
+  href: string;
+  label: string;
+  /** Masaüstünde açılır menü, mobilde girintili alt liste olarak gösterilir. */
+  children?: { href: string; label: string; note?: string }[];
+}
+
+/**
+ * Navigasyon aynı zamanda site geneli iç link yapısıdır: pillar sayfalar her
+ * sayfadan bağlantı alır, alt konu sayfalarına açılır menüden erişilir.
+ */
+const navLinks: NavLink[] = [
+  {
+    href: "/hizmetler",
+    label: "Hizmetler",
+    children: [
+      { href: "/sporcu-beslenmesi-antalya", label: "Sporcu Beslenmesi", note: "Kulüp ve federasyon tecrübesiyle" },
+      { href: "/atletik-performans-beslenmesi", label: "Atletik Performans", note: "Güç, dayanıklılık, toparlanma" },
+      { href: "/sporcu-sakatligi-beslenmesi", label: "Sakatlık ve İyileşme", note: "Kas kaybını sınırlamak" },
+      { href: "/zayiflama-ignesi-diyetisyeni-antalya", label: "Zayıflama İğnesi (GLP-1)", note: "Mounjaro, Ozempic süreç yönetimi" },
+      { href: "/biohacking-ve-longevity-antalya", label: "Biohacking & Longevity", note: "Ölçüme dayalı optimizasyon" },
+      { href: "/online-diyet", label: "Online Diyet", note: "Şehir dışı ve kamp takibi" },
+      { href: "/hizmetler", label: "Tüm hizmetler" },
+    ],
+  },
   { href: "/hakkimda", label: "Hakkımda" },
-  { href: "/basari-hikayeleri", label: "Başarı Hikayeleri" },
+  { href: "/antalya-diyetisyen", label: "Antalya" },
   { href: "/blog", label: "Blog" },
+  { href: "/sik-sorulan-sorular", label: "S.S.S." },
   { href: "/iletisim", label: "İletişim" },
 ];
 
@@ -66,10 +89,33 @@ export default function Header() {
         <nav className={styles.nav}>
           <ul className={styles.navList}>
             {navLinks.map((link) => (
-              <li key={link.href} className={styles.navItem}>
+              <li
+                key={link.href}
+                className={`${styles.navItem} ${link.children ? styles.hasDropdown : ""}`}
+              >
                 <Link href={link.href} className={styles.navLink}>
                   {link.label}
+                  {link.children && (
+                    <svg className={styles.caret} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden="true">
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  )}
                 </Link>
+
+                {link.children && (
+                  <div className={styles.dropdown}>
+                    <ul className={styles.dropdownList}>
+                      {link.children.map((child) => (
+                        <li key={child.href + child.label}>
+                          <Link href={child.href} className={styles.dropdownLink}>
+                            <span className={styles.dropdownLabel}>{child.label}</span>
+                            {child.note && <span className={styles.dropdownNote}>{child.note}</span>}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -113,6 +159,17 @@ export default function Header() {
                       <path d="M9 18l6-6-6-6" />
                     </svg>
                   </Link>
+                  {link.children && (
+                    <ul className={styles.mobileSubList}>
+                      {link.children.slice(0, -1).map((child) => (
+                        <li key={child.href + child.label}>
+                          <Link href={child.href} className={styles.mobileSubLink} onClick={closeMobileMenu}>
+                            {child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>

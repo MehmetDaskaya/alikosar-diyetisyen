@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "İletişim",
+  title: "İletişim ve Randevu | Antalya Muratpaşa",
   description: "Diyetisyen Ali Koşar ile iletişime geçin. Antalya Muratpaşa'da profesyonel beslenme danışmanlığı için randevu alın.",
   keywords: ["iletişim", "randevu", "Antalya diyetisyen", "Muratpaşa", "beslenme danışmanlığı"],
   alternates: { canonical: "/iletisim" },

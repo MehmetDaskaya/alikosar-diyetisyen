@@ -5,8 +5,8 @@ import { site, absoluteUrl } from "../../lib/site";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Hizmetler",
-  description: "Diyetisyen Ali Koşar'ın sunduğu beslenme ve diyet hizmetleri: Kilo yönetimi, sporcu beslenmesi, klinik beslenme, özel beslenme programları. Antalya'da profesyonel diyet danışmanlığı.",
+  title: "Hizmetler | Sporcu Beslenmesi, GLP-1, Klinik Diyet",
+  description: "Antalya'daki hizmetler: sporcu beslenmesi ve atletik performans, sakatlık dönemi, GLP-1 süreç yönetimi, biohacking ve klinik beslenme.",
   keywords: ["diyet hizmetleri", "kilo verme", "sporcu beslenmesi", "diyabet diyeti", "Antalya diyetisyen"],
   alternates: { canonical: "/hizmetler" },
   openGraph: {

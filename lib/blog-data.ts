@@ -1,28 +1,15 @@
-// Blog Post Type Definition
-export interface BlogPost {
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  category: string;
-  tags: string[];
-  author: string;
-  /** ISO 8601 yayın tarihi (YYYY-MM-DD). Görüntülenen tarih bundan üretilir. */
-  publishedAt: string;
-  /** ISO 8601 son güncelleme tarihi. Yoksa publishedAt kullanılır. */
-  updatedAt?: string;
-  readTime: string;
-  /** Kapak görseli: /public/images/blog/<slug>.jpg */
-  image: string;
-  featured?: boolean;
-}
+import type { BlogPost } from "./blog-types";
+import { newPosts } from "./blog-posts-new";
+
+export type { BlogPost };
 
 // ========================================
 // BLOG YAZILARI - YENİ YAZI EKLEMEK İÇİN
 // Bu diziye yeni obje ekleyerek blog yazısı ekleyebilirsiniz
 // ========================================
 
-export const blogPosts: BlogPost[] = [
+/** 2026 öncesi yazılan ilk içerik seti. */
+const legacyPosts: BlogPost[] = [
   {
     slug: "antalya-saglikli-beslenme-rehberi",
     title: "Antalya'da Sağlıklı Beslenme Rehberi",
@@ -31,6 +18,9 @@ export const blogPosts: BlogPost[] = [
     tags: ["Antalya", "Akdeniz diyeti", "yerel lezzetler", "sağlıklı beslenme"],
     author: "Dyt. Ali Koşar",
     publishedAt: "2026-01-10",
+    updatedAt: "2026-09-22",
+    answer:
+      "Antalya'da Akdeniz diyetini uygulamak, ürünlere erişim kolaylığı sayesinde başka şehirlere göre çok daha pratiktir. Temel yapı şudur: birincil yağ kaynağı zeytinyağı, haftada 2-3 kez balık, günde en az 5 porsiyon sebze-meyve, tam tahıl ve günlük bir avuç kuruyemiş. Mevsimsel ürün tercih etmek hem maliyeti hem besin değerini iyileştirir.",
     readTime: "5 dk okuma",
     image: "/images/blog/antalya-saglikli-beslenme-rehberi.jpg",
     featured: true,
@@ -88,11 +78,14 @@ Antalya'da sağlıklı beslenmek, coğrafi avantajlarımızı kullanmak demektir
   {
     slug: "sporcu-beslenmesinde-supplement-kullanimi",
     title: "Sporcu Beslenmesinde Supplement Kullanımı",
-    excerpt: "Protein tozu, kreatin, BCAA... Hangi takviyeyi ne zaman kullanmalısınız? Bilimsel temelli supplement rehberi.",
+    excerpt: "Protein tozu, kreatin, BCAA... Hangi takviyeyi ne zaman kullanmalısınız? Kanıt düzeyine göre sınıflandırılmış, bilimsel temelli supplement rehberi.",
     category: "Sporcu Beslenmesi",
     tags: ["supplement", "protein", "kreatin", "BCAA", "sporcu beslenmesi"],
     author: "Dyt. Ali Koşar",
     publishedAt: "2026-01-05",
+    updatedAt: "2026-09-22",
+    answer:
+      "Sporcu takviyelerinde performansa katkısı güçlü kanıtla desteklenen ürün sayısı beşi geçmez: kreatin monohidrat (günde 3-5 g), kafein (3-6 mg/kg), beta-alanin (günde 3,2-6,4 g), diyet nitratı ve sodyum bikarbonat. Yeterli enerji ve protein alınmadan takviye eklemek sonucu değiştirmez; takviye eksiği kapatır, temeli kurmaz.",
     readTime: "7 dk okuma",
     image: "/images/blog/sporcu-beslenmesinde-supplement-kullanimi.jpg",
     featured: true,
@@ -165,11 +158,14 @@ Supplementler, doğru kullanıldığında performansınızı artırabilir. Ancak
   {
     slug: "glutensiz-yasam-colyak-tarifleri",
     title: "Glutensiz Yaşam: Çölyak Hastaları İçin Pratik Tarifler",
-    excerpt: "Çölyak hastalığı ile yaşarken lezzetli yemeklerden vazgeçmek zorunda değilsiniz. İşte pratik glutensiz tarifler.",
+    excerpt: "Çölyak hastalığıyla yaşarken lezzetli yemeklerden vazgeçmek zorunda değilsiniz. Gizli gluten kaynakları, çapraz bulaşma ve pratik glutensiz tarifler.",
     category: "Özel Beslenme",
     tags: ["çölyak", "glutensiz", "tarifler", "özel beslenme"],
     author: "Dyt. Ali Koşar",
     publishedAt: "2026-01-01",
+    updatedAt: "2026-09-22",
+    answer:
+      "Çölyak hastalığında tek tedavi ömür boyu glutensiz beslenmedir: buğday, arpa, çavdar ve bunların türevleri tamamen çıkarılır. Zorluk yasak listesinde değil, gizli gluten kaynakları ve çapraz bulaşma riskindedir. Doğru kurulduğunda glutensiz mutfak kısıtlı değil, sadece farklı bir tahıl setine dayanır.",
     readTime: "6 dk okuma",
     image: "/images/blog/glutensiz-yasam-colyak-tarifleri.jpg",
     content: `
@@ -255,11 +251,14 @@ Glutensiz yaşam başlangıçta zor görünebilir, ancak doğru bilgi ve planlam
   {
     slug: "diyabet-beslenmesi-temel-ilkeler",
     title: "Diyabet Beslenmesi: Temel İlkeler ve Pratik Öneriler",
-    excerpt: "Tip 2 diyabette beslenme yönetimi nasıl olmalı? Glisemik indeks nedir ve neden önemlidir?",
+    excerpt: "Tip 2 diyabette beslenme yönetimi nasıl olmalı? Glisemik indeks, öğün sırası, öğün sonrası hareket ve kan şekeri dalgalanmasını azaltan pratik adımlar.",
     category: "Klinik Beslenme",
     tags: ["diyabet", "şeker hastalığı", "glisemik indeks", "klinik beslenme"],
     author: "Dyt. Ali Koşar",
     publishedAt: "2025-12-28",
+    updatedAt: "2026-09-22",
+    answer:
+      "Tip 2 diyabette beslenmenin amacı şekeri yasaklamak değil, kan şekeri dalgalanmasını azaltmaktır. En etkili üç müdahale: her öğünde protein ve lif bulundurmak, aynı öğünde önce sebze-protein sonra karbonhidrat tüketmek ve yemekten sonra 10-15 dakika yürümek. İlaç ve insülin dozları hekim tarafından düzenlenir.",
     readTime: "8 dk okuma",
     image: "/images/blog/diyabet-beslenmesi-temel-ilkeler.jpg",
     content: `
@@ -336,11 +335,14 @@ Diyabet yönetiminde beslenme, ilaç tedavisi kadar önemlidir. Doğru besin se�
   {
     slug: "kilo-verme-platosu-nasil-asilinir",
     title: "Kilo Verme Platosu Nasıl Aşılır?",
-    excerpt: "Diyet yaparken kiloların takılı kaldı mı? İşte plato dönemini aşmanın bilimsel yöntemleri.",
+    excerpt: "Diyet yaparken kilolarınız takılı mı kaldı? Platonun gerçek sebepleri ve protein, direnç antrenmanı ile günlük hareket üzerinden aşma yöntemleri.",
     category: "Kilo Yönetimi",
     tags: ["kilo verme", "plato", "metabolizma", "diyet"],
     author: "Dyt. Ali Koşar",
     publishedAt: "2025-12-20",
+    updatedAt: "2026-09-22",
+    answer:
+      "Kilo verme platosunun en sık sebebi metabolizmanın durması değil, alım ile harcamanın farkında olmadan eşitlenmesidir: porsiyonlar büyür, günlük hareket azalır ve kaybedilen kütleyle birlikte enerji ihtiyacı düşer. Çözüm daha sert kısıtlama değil; protein hedefini yükseltmek, direnç antrenmanı eklemek ve günlük adım sayısını artırmaktır.",
     readTime: "5 dk okuma",
     image: "/images/blog/kilo-verme-platosu-nasil-asilinir.jpg",
     content: `
@@ -426,11 +428,14 @@ Plato dönemi, vücudunuzun sizi test ettiği bir süreçtir. Sabırlı olun, st
   {
     slug: "yaz-icin-detoks-diyeti-mitleri",
     title: "Yaz İçin Detoks Diyeti: Mitler ve Gerçekler",
-    excerpt: "Detoks diyetleri gerçekten işe yarıyor mu? Vücudunuzun doğal temizleme mekanizması hakkında bilmeniz gerekenler.",
+    excerpt: "Detoks diyetleri gerçekten işe yarıyor mu? Karaciğer ve böbreklerin doğal temizleme mekanizması ile hızlı kilo kaybının arkasındaki gerçek.",
     category: "Beslenme İpuçları",
     tags: ["detoks", "mit", "gerçek", "sağlıklı beslenme"],
     author: "Dyt. Ali Koşar",
     publishedAt: "2025-12-15",
+    updatedAt: "2026-09-22",
+    answer:
+      "Detoks diyetlerinin vücuttan toksin attığına dair bilimsel kanıt yoktur; bu işi karaciğer ve böbrekler zaten sürekli yapar. Detoks programlarında görülen hızlı kilo kaybı ağırlıklı olarak su ve glikojen kaybıdır ve program bittiğinde geri gelir. Kalıcı sonuç veren şey, lif, protein ve düzenli öğün üzerine kurulu sürdürülebilir bir düzendir.",
     readTime: "4 dk okuma",
     image: "/images/blog/yaz-icin-detoks-diyeti-mitleri.jpg",
     content: `
@@ -509,6 +514,9 @@ Pahalı detoks paketleri yerine, sürdürülebilir sağlıklı beslenme alışka
   }
 ];
 
+/** Yayındaki tüm yazılar — yeni içerikler önce gelir. */
+export const blogPosts: BlogPost[] = [...newPosts, ...legacyPosts];
+
 // ========================================
 // HELPER FUNCTIONS
 // ========================================
@@ -557,7 +565,22 @@ export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPos
   const currentPost = getPostBySlug(currentSlug);
   if (!currentPost) return [];
 
-  return blogPosts
-    .filter(post => post.slug !== currentSlug && post.category === currentPost.category)
-    .slice(0, limit);
+  const sameCategory = blogPosts.filter(
+    post => post.slug !== currentSlug && post.category === currentPost.category
+  );
+  if (sameCategory.length >= limit) return sameCategory.slice(0, limit);
+
+  // Kategori yetmiyorsa etiket örtüşmesine göre tamamla — her yazının
+  // en az 3 iç bağlantı alması iç link yapısı için önemli.
+  const chosen = new Set(sameCategory.map(p => p.slug));
+  const byTagOverlap = blogPosts
+    .filter(post => post.slug !== currentSlug && !chosen.has(post.slug))
+    .map(post => ({
+      post,
+      score: post.tags.filter(t => currentPost.tags.includes(t)).length,
+    }))
+    .sort((a, b) => b.score - a.score)
+    .map(x => x.post);
+
+  return [...sameCategory, ...byTagOverlap].slice(0, limit);
 }

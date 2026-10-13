@@ -21,19 +21,19 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-2xl);
 }
 
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
   .grid {
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.5fr);
     gap: var(--space-3xl);
   }
 }
@@ -239,4 +239,46 @@
 
 .divider {
   color: var(--color-gray-500);
+}
+
+/* ---------- Yerel bağlantı şeridi ---------- */
+.localNav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.localNavTitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.localNavLink {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.68);
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.localNavLink:hover {
+  color: var(--color-primary-light, #a8d5ba);
+  text-decoration: underline;
+}
+
+/* ---------- Tıbbi sorumluluk reddi ---------- */
+.disclaimer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 88ch;
 }

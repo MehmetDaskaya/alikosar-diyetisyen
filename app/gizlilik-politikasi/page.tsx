@@ -4,7 +4,7 @@ import LegalPage, { legalStyles as styles } from "../../components/LegalPage";
 import { site } from "../../lib/site";
 
 export const metadata: Metadata = {
-  title: "Gizlilik Politikası",
+  title: "Gizlilik Politikası | Diyetisyen Ali Koşar",
   description:
     "Diyetisyen Ali Koşar internet sitesinde hangi verilerin toplandığı, nasıl kullanıldığı ve çerez kullanımına ilişkin gizlilik politikası.",
   alternates: { canonical: "/gizlilik-politikasi" },

@@ -471,3 +471,70 @@ img {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-gray-400);
 }
+
+/* ============================================
+   YERLEŞİM GÜVENLİK AĞI
+   Taşma kaynaklarını tek noktadan kapatır.
+   ============================================ */
+
+/* `clip`, `hidden`'ın aksine position:sticky'yi bozmaz. */
+html,
+body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+img,
+svg,
+video,
+iframe,
+embed,
+object {
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+/* Form öğelerinin tarayıcı kaynaklı içsel genişliği grid/flex
+   track'lerini şişirmesin. */
+input,
+select,
+textarea,
+button {
+  max-width: 100%;
+  min-width: 0;
+  font-family: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+}
+
+p, li, td, th, dd, figcaption, blockquote, h1, h2, h3, h4 {
+  overflow-wrap: break-word;
+}
+
+table {
+  max-width: 100%;
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-primary-dark, #5a9178);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

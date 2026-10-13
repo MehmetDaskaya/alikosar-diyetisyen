@@ -1,17 +1,26 @@
 import Link from "next/link";
 import Icon, { type IconName } from "./Icon";
 import { site, whatsappUrl } from "../lib/site";
+import { ilceler } from "../lib/pages/ilceler";
 import styles from "./Footer.module.css";
 
 const footerLinks = {
   hizmetler: [
-    { href: "/hizmetler#kilo-yonetimi", label: "Kilo Yönetimi" },
-    { href: "/hizmetler#sporcu-beslenmesi", label: "Sporcu Beslenmesi" },
-    { href: "/hizmetler#klinik-beslenme", label: "Klinik Beslenme" },
-    { href: "/hizmetler#ozel-beslenme", label: "Özel Beslenme" },
+    { href: "/sporcu-beslenmesi-antalya", label: "Sporcu Beslenmesi" },
+    { href: "/atletik-performans-beslenmesi", label: "Atletik Performans" },
+    { href: "/sporcu-sakatligi-beslenmesi", label: "Sakatlık ve İyileşme" },
+    { href: "/zayiflama-ignesi-diyetisyeni-antalya", label: "Zayıflama İğnesi (GLP-1)" },
+    { href: "/glp1-kas-kaybi-onleme", label: "GLP-1'de Kas Kaybı" },
+    { href: "/glp1-safra-kesesi-sorunlari", label: "GLP-1 ve Safra Kesesi" },
+    { href: "/mounjaro-beslenme-programi", label: "Mounjaro Beslenme Programı" },
+    { href: "/biohacking-ve-longevity-antalya", label: "Biohacking ve Longevity" },
+    { href: "/peptit-tedavileri-ve-beslenme", label: "Peptit Uygulamaları" },
   ],
   hizli: [
     { href: "/hakkimda", label: "Hakkımda" },
+    { href: "/hizmetler", label: "Hizmetler" },
+    { href: "/online-diyet", label: "Online Diyet" },
+    { href: "/sik-sorulan-sorular", label: "Sık Sorulan Sorular" },
     { href: "/basari-hikayeleri", label: "Başarı Hikayeleri" },
     { href: "/blog", label: "Blog" },
     { href: "/iletisim", label: "İletişim" },
@@ -116,13 +125,29 @@ export default function Footer() {
                     <Icon name="clock" size={18} />
                   </span>
                   <div>
-                    <p>Pzt - Cuma: 09:00 - 18:00</p>
-                    <p>Cumartesi: 10:00 - 14:00</p>
+                    {site.openingHoursDisplay.map((h) => (
+                      <p key={h.label}>
+                        {h.label}: {h.value}
+                      </p>
+                    ))}
                   </div>
                 </div>
               </address>
             </div>
           </div>
+
+          {/* Yerel sayfa bağlantıları — ilçe kümesine iç link akışı */}
+          <nav className={styles.localNav} aria-label="Hizmet bölgeleri">
+            <span className={styles.localNavTitle}>Hizmet bölgeleri:</span>
+            {ilceler.map((i) => (
+              <Link key={i.slug} href={`/antalya-diyetisyen/${i.slug}`} className={styles.localNavLink}>
+                {i.name} Diyetisyen
+              </Link>
+            ))}
+            <Link href="/online-diyet" className={styles.localNavLink}>
+              Online Diyet
+            </Link>
+          </nav>
         </div>
       </div>
 
@@ -147,6 +172,11 @@ export default function Footer() {
               </Link>
             </div>
           </div>
+          <p className={styles.disclaimer}>
+            Bu sitedeki içerikler genel bilgilendirme amaçlıdır ve kişiye özel tıbbi
+            tavsiye, teşhis veya tedavi yerine geçmez. İlaç ve takviye kullanımına
+            ilişkin kararlar hekiminizle birlikte alınmalıdır.
+          </p>
         </div>
       </div>
     </footer>
