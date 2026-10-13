@@ -7,6 +7,13 @@ import { getPostBySlug, getAllPosts, getRelatedPosts, formatDate } from "../../.
 import { site, absoluteUrl } from "../../../lib/site";
 import styles from "./page.module.css";
 
+/**
+ * Planlanmış blog yazıları tarihi geldiğinde elle deploy olmadan yayına
+ * girsin diye sayfa 6 saatte bir yeniden üretiliyor.
+ */
+export const revalidate = 21600;
+
+
 interface Props {
   params: Promise<{ slug: string }>;
 }

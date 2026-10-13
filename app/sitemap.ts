@@ -5,6 +5,13 @@ import { ilceler } from "../lib/pages/ilceler";
 import { getAllPosts } from "../lib/blog-data";
 
 /**
+ * Planlanmış blog yazıları tarihi geldiğinde elle deploy olmadan yayına
+ * girsin diye sayfa 6 saatte bir yeniden üretiliyor.
+ */
+export const revalidate = 21600;
+
+
+/**
  * Sitemap tek bir veri kaynağından üretilir; yeni bir landing sayfası veya
  * blog yazısı eklendiğinde burayı ayrıca güncellemek gerekmez.
  */

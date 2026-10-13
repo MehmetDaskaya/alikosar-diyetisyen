@@ -10,6 +10,13 @@ import { graph, webPageNode } from "../lib/schema";
 import { ilceler } from "../lib/pages/ilceler";
 import styles from "./page.module.css";
 
+/**
+ * Planlanmış blog yazıları tarihi geldiğinde elle deploy olmadan yayına
+ * girsin diye sayfa 6 saatte bir yeniden üretiliyor.
+ */
+export const revalidate = 21600;
+
+
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: { url: "/" },

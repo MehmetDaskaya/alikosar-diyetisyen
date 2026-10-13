@@ -4,6 +4,12 @@ import { ilceler } from "../../lib/pages/ilceler";
 import { getAllPosts } from "../../lib/blog-data";
 
 export const dynamic = "force-static";
+/**
+ * Planlanmış blog yazıları tarihi geldiğinde elle deploy olmadan yayına
+ * girsin diye sayfa 6 saatte bir yeniden üretiliyor.
+ */
+export const revalidate = 21600;
+
 
 /**
  * /llms.txt — üretken arama motorları için düz Markdown site haritası.

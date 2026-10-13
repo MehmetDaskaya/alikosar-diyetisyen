@@ -1,5 +1,6 @@
 import type { BlogPost } from "./blog-types";
 import { newPosts } from "./blog-posts-new";
+import { ekimPosts } from "./blog-posts-ekim";
 
 export type { BlogPost };
 
@@ -515,16 +516,37 @@ Pahalı detoks paketleri yerine, sürdürülebilir sağlıklı beslenme alışka
 ];
 
 /** Yayındaki tüm yazılar — yeni içerikler önce gelir. */
-export const blogPosts: BlogPost[] = [...newPosts, ...legacyPosts];
+export const blogPosts: BlogPost[] = [...ekimPosts, ...newPosts, ...legacyPosts];
 
 // ========================================
 // HELPER FUNCTIONS
 // ========================================
 
+/**
+ * Yayın tarihi gelmiş yazılar, yeniden eskiye.
+ *
+ * İleri tarihli yazılar listelerde, sitemap'te ve llms.txt'te görünmez.
+ * Böylece yazılar tek seferde yazılıp commit edilse bile yayına haftaya
+ * yayılarak çıkar: ani yayın sıçraması Google'ın "scaled content abuse"
+ * tespit sinyallerinden biri ve düşük otoriteli bir alan adında bir günde
+ * onlarca URL'in indekslenmesi zaten beklenmiyor.
+ *
+ * Sayfalar ISR ile düzenli yeniden üretildiği için (bkz. `revalidate`),
+ * tarihi gelen yazı elle müdahale olmadan yayına giriyor.
+ */
 export function getAllPosts(): BlogPost[] {
-  return [...blogPosts].sort(
-    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+  const now = Date.now();
+  return blogPosts
+    .filter((post) => new Date(post.publishedAt).getTime() <= now)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+}
+
+/** Henüz yayına girmemiş, planlanmış yazılar — yalnızca iç kullanım. */
+export function getScheduledPosts(): BlogPost[] {
+  const now = Date.now();
+  return blogPosts
+    .filter((post) => new Date(post.publishedAt).getTime() > now)
+    .sort((a, b) => new Date(a.publishedAt).getTime() - new Date(b.publishedAt).getTime());
 }
 
 /** ISO tarihi "10 Ocak 2026" biçiminde gösterir. */
@@ -538,25 +560,29 @@ export function formatDate(isoDate: string): string {
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
-  return blogPosts.find(post => post.slug === slug);
+  const post = blogPosts.find((p) => p.slug === slug);
+  if (!post) return undefined;
+  // Planlanmış yazı tarihi gelmeden erişilebilir olmasın.
+  return new Date(post.publishedAt).getTime() <= Date.now() ? post : undefined;
 }
 
 export function getFeaturedPosts(): BlogPost[] {
-  return blogPosts.filter(post => post.featured);
+  return getAllPosts().filter(post => post.featured);
 }
 
 export function getPostsByCategory(category: string): BlogPost[] {
-  return blogPosts.filter(post => post.category === category);
+  return getAllPosts().filter(post => post.category === category);
 }
 
 export function getAllCategories(): { name: string; count: number }[] {
-  const categories = blogPosts.reduce((acc, post) => {
+  const published = getAllPosts();
+  const categories = published.reduce((acc, post) => {
     acc[post.category] = (acc[post.category] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
   return [
-    { name: "Tümü", count: blogPosts.length },
+    { name: "Tümü", count: published.length },
     ...Object.entries(categories).map(([name, count]) => ({ name, count }))
   ];
 }
@@ -565,7 +591,8 @@ export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPos
   const currentPost = getPostBySlug(currentSlug);
   if (!currentPost) return [];
 
-  const sameCategory = blogPosts.filter(
+  const published = getAllPosts();
+  const sameCategory = published.filter(
     post => post.slug !== currentSlug && post.category === currentPost.category
   );
   if (sameCategory.length >= limit) return sameCategory.slice(0, limit);
@@ -573,7 +600,7 @@ export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPos
   // Kategori yetmiyorsa etiket örtüşmesine göre tamamla — her yazının
   // en az 3 iç bağlantı alması iç link yapısı için önemli.
   const chosen = new Set(sameCategory.map(p => p.slug));
-  const byTagOverlap = blogPosts
+  const byTagOverlap = published
     .filter(post => post.slug !== currentSlug && !chosen.has(post.slug))
     .map(post => ({
       post,

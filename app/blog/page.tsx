@@ -5,6 +5,13 @@ import Photo from "../../components/Photo";
 import { getAllPosts, getAllCategories, formatDate } from "../../lib/blog-data";
 import styles from "./page.module.css";
 
+/**
+ * Planlanmış blog yazıları tarihi geldiğinde elle deploy olmadan yayına
+ * girsin diye sayfa 6 saatte bir yeniden üretiliyor.
+ */
+export const revalidate = 21600;
+
+
 export const metadata: Metadata = {
   title: "Blog | Sporcu Beslenmesi, GLP-1 ve Longevity",
   description: "Sağlıklı beslenme, diyet ipuçları, sporcu beslenmesi ve Antalya'da sağlıklı yaşam hakkında güncel bilgiler. Diyetisyen Ali Koşar'ın blog yazıları.",
